@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<!-- メインコンテナ: 左にタブ、右にボタン領域 -->
+
+
+<div id="mainContainer">
+
+	<!-- サイドバー -->
+	<aside id="sidebar" class="sidebar collapsed">
+		<div class="sidebar-header">
+			<span class="sidebar-title">マイセット</span>
+			<button id="sidebarToggle">≪</button>
+		</div>
+
+		<div id="tabs" class="tabs"></div>
+	</aside>
+
+	<!-- メインボタン領域 -->
+	<div id="buttons"></div>
+
+</div>
+
+
+<!-- エディタパネル -->
+<div id="editorPanel" class="editor-panel">
+	<div class="editor-header">
+		<span>編集する</span>
+		<button id="close-btn" class="close-btn">編集を閉じる</button>
+	</div>
+	<div id="editorContent"></div>
+</div>
+
+<!-- 設定パネル -->
+<div id="settingsPanel" class="editor-panel setting-panel">
+	<div class="editor-header">
+		<span>設定</span>
+		<button id="closeSettingsBtn" class="close-btn">閉じる</button>
+	</div>
+	<div id="settingContent">
+	<!-- initSettings() で項目が描画されます -->
+	</div>
+</div>
+
+</div>
+</div>
+<script src="config/defaultconfig.js"></script>
+<script src="model/state.js"></script>
+<script src="model/storage.js"></script>
+<script src="libs/Sortable.min.js"></script>
+<script src="view/setting/darkRainbow.js"></script>
+<script src="view/setting/base.js"></script>
+<script src="view/button.js"></script>
+<script src="view/editor.js"></script>
+<script src="view/tab.js"></script>
+<script src="view/sidebar.js"></script>
+<script src="service/autosave.js"></script>
+<script src="controller/main.js"></script>
+
+</body>
+</html>

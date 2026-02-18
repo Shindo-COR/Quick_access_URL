@@ -35,8 +35,8 @@ span {
 #tabs {
   display: flex;
   flex-direction: column;  /* 縦並び */
-  gap: 4px;
-  width: 140px;            /* 左側固定幅 */
+  gap: 5.6px;
+  width: 155px;            /* 左側固定幅 */
   overflow-y: auto;
 }
 
@@ -101,6 +101,7 @@ span {
   flex: 1;                  /* 残り領域を占有 */
   display: flex;
   flex-direction: column;    /* 縦並び */
+  margin-right: 1rem;
   gap: 8px;
   overflow-y: auto;          /* スクロール継続 */
 }
@@ -117,11 +118,45 @@ span {
   transition: transform 0.08s ease, box-shadow 0.12s ease;
   border-left: 4px solid rgba(255,255,255,0.4);
 }
+/* =====================
+   Buttons Drag & Slide Animation
+===================== */
+/* Buttons Drag Animation */
+#buttons button {
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: white;
+  cursor: grab;
+  text-align: left;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  border-left: 4px solid rgba(255,255,255,0.4);
+}
 
 #buttons button:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.18);
 }
+
+/* ドラッグ中のボタン視覚化 */
+.dragging {
+  opacity: 0.6;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  cursor: grabbing;
+}
+
+
+
+/* ドラッグ中にスペースを確保する */
+#buttons .placeholder {
+  height: 40px; /* ボタンの高さに合わせる */
+  margin: 4px 0;
+  border: 2px dashed #aaa;
+  border-radius: 6px;
+}
+
 
 /* =====================
    Editor Panel
@@ -131,7 +166,7 @@ span {
   position: fixed;
   top: 0;
   right: 0;
-  width: 100vw;
+  width: calc(100vw - 20px); /* サイドバー幅を引く */
   height: 100vh;
   background: #fafafa;
   box-shadow: -4px 0 12px rgba(0,0,0,0.15);
@@ -140,6 +175,11 @@ span {
   z-index: 9999;
   transform: translateX(100%);
 }
+/* 折りたたみレイアウト崩れ対策 */
+.sidebar.collapsed + #buttons ~ .editor-panel {
+  width: calc(100vw - 42px);
+}
+
 
 .editor-panel.open {
   transform: translateX(0);
@@ -148,6 +188,7 @@ span {
 .editor-header {
   display: flex;
   justify-content: space-between;
+  position: relative;
   align-items: center;
   padding: 8px;
   border-bottom: 1px solid #ddd;
@@ -168,6 +209,8 @@ span {
   font-size: 10px;
   font-weight: bold;
   cursor: pointer;
+  position: absolute;
+  left: 40%;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   transition: transform 0.1s ease, background 0.15s ease;
 }
@@ -183,14 +226,17 @@ span {
   overflow-y: auto;
   max-height: calc(100vh - 60px);
 }
+/* =====================
+   URLリストドラッグ並び替え
+===================== */
 
-/* Editor Rows */
 .row {
   display: flex;
   gap: 4px;
   margin-bottom: 4px;
   align-items: center;
 }
+/* Editor Rows */
 .row .label {
   flex: 0 0 80px;
 }
@@ -216,6 +262,7 @@ span {
 input {
   padding: 4px 6px;
   font-size: 11px;
+  width: 125px;
 }
 
 /* Buttons */
@@ -244,4 +291,156 @@ button:hover {
   z-index: 99999;
   opacity: 0;
   transition: opacity 0.12s ease;
+}
+/* =====================
+   Tab Header (My Set)
+===================== */
+
+#mainContainer {
+  display: flex;
+  height: 100%;
+  gap: 8px;
+}
+
+/* 左カラム */
+#tabColumn {
+  display: flex;
+  flex-direction: column;
+  /* width: 120px; */
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ヘッダー */
+.tab-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: #444;
+  padding: 4px 6px;
+  border-left: 3px solid #4f46e5;
+  background: #f5f5ff;
+  border-radius: 4px;
+}
+
+
+/* =====================
+   Main Layout
+===================== */
+#mainContainer {
+  display: flex;
+  height: 100vh;
+}
+
+/* =====================
+   Sidebar
+===================== */
+.sidebar {
+  width: 163px;
+  background: #fafafa;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.15s ease;
+  overflow: hidden;
+}
+
+/* 折りたたみ状態 */
+.sidebar.collapsed {
+  width: 26px;
+}
+
+/* =====================
+   Sidebar Header
+===================== */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  background: #f4f4f4;
+  border-bottom: 1px solid #ddd;
+}
+
+.sidebar-title {
+  white-space: nowrap;
+  transition: opacity 0.1s;
+}
+
+/* 折りたたみ時はタイトル非表示 */
+.sidebar.collapsed .sidebar-title {
+  opacity: 0;
+}
+
+/* Toggle Button */
+#sidebarToggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 2px 4px;
+  color: #555;
+}
+
+/* =====================
+   Tabs Area
+===================== */
+.tabs {
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 編集ボタン用カスタムツールチップ */
+.edit-tab-btn {
+  position: relative;
+}
+
+.edit-tab-btn::after {
+  content: "編集する";
+  position: absolute;
+  bottom: -24px;       /* ボタンの下に表示 */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #616161;
+  color: #fcfcfc;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  z-index: 100;
+}
+
+.edit-tab-btn:hover::after {
+  opacity: 1;
+}
+
+
+
+
+
+/* 拡張機能を閉じるボタン（固定表示・目立たせる） */
+.close-extension-btn {
+  background: #735757;
+  color: rgb(249, 249, 249);
+  font-weight: bold;
+  font-size: 16px;        /* 文字を大きく */
+  text-align: center;      /* 中央寄せ */
+  padding: 10px 12px;      /* 少し縦幅を広げて押しやすく */
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+
+.close-extension-btn:hover {
+  background: #372626;
+  transform: scale(1.03);
 }
