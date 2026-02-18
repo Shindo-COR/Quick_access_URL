@@ -1,101 +1,159 @@
 // files/view/setting/base.js
 
-window.initSettings = function() {
+window.initSettings = function () {
   const settingsPanel = document.getElementById("settingsPanel");
   const settingsContent = document.getElementById("settingContent");
-
   if (!settingsPanel || !settingsContent) return;
 
-  // 中身をクリア
   settingsContent.innerHTML = "";
 
-  // 保存されていない場合の初期値
+  // 初期値
   AppState.settings = AppState.settings || {};
-  if (AppState.settings.buttonsOnTop === undefined) AppState.settings.buttonsOnTop = true;
-  if (AppState.settings.darkMode === undefined) AppState.settings.darkMode = false;
-  if (AppState.settings.rainbowHover === undefined) AppState.settings.rainbowHover = false;
+  if (AppState.settings.buttonsOnTop === undefined)
+    AppState.settings.buttonsOnTop = true;
+  if (AppState.settings.darkMode === undefined)
+    AppState.settings.darkMode = false;
+  if (!AppState.settings.darkBgColor) AppState.settings.darkBgColor = "#1a1a2e";
+  if (!AppState.settings.darkTextColor)
+    AppState.settings.darkTextColor = "#ffffff";
+  if (AppState.settings.darkRainbowBg === undefined)
+    AppState.settings.darkRainbowBg = false;
+  if (AppState.settings.rainbowHover === undefined)
+    AppState.settings.rainbowHover = false;
 
   // =====================
-  // 1. 閉じる/設定ボタンの位置設定（チェックボックス）
+  // 1. ボタン位置
   // =====================
-  const btnPositionLabel = document.createElement("label");
-  btnPositionLabel.style.display = "flex";
-  btnPositionLabel.style.alignItems = "center";
-  btnPositionLabel.style.gap = "6px";
-  btnPositionLabel.textContent = "閉じる/設定ボタンを上に表示";
+  const posLabel = document.createElement("label");
+  posLabel.textContent = "閉じる/設定ボタンを上に表示";
+  posLabel.style.display = "flex";
+  posLabel.style.gap = "6px";
 
-  const btnPositionCheckbox = document.createElement("input");
-  btnPositionCheckbox.type = "checkbox";
-  btnPositionCheckbox.checked = AppState.settings.buttonsOnTop;
-
-  btnPositionCheckbox.onchange = () => {
-    AppState.settings.buttonsOnTop = btnPositionCheckbox.checked;
+  const posCheck = document.createElement("input");
+  posCheck.type = "checkbox";
+  posCheck.checked = AppState.settings.buttonsOnTop;
+  posCheck.onchange = () => {
+    AppState.settings.buttonsOnTop = posCheck.checked;
     saveStorage({ settings: AppState.settings });
-    renderButtons(); // 変更を即時反映
+    renderButtons();
   };
 
-  btnPositionLabel.prepend(btnPositionCheckbox);
-  settingsContent.appendChild(btnPositionLabel);
+  posLabel.prepend(posCheck);
+  settingsContent.appendChild(posLabel);
 
   // =====================
-  // 2. ダークモード（背景のみ）
+  // 2. ダークモード ON/OFF
   // =====================
-  const darkModeLabel = document.createElement("label");
-  darkModeLabel.style.display = "flex";
-  darkModeLabel.style.alignItems = "center";
-  darkModeLabel.style.gap = "6px";
-  darkModeLabel.textContent = "ダークモード（背景のみ）";
+  const darkLabel = document.createElement("label");
+  darkLabel.textContent = "ダークモード";
+  darkLabel.style.display = "flex";
+  darkLabel.style.gap = "6px";
 
-  const darkModeCheckbox = document.createElement("input");
-  darkModeCheckbox.type = "checkbox";
-  darkModeCheckbox.checked = AppState.settings.darkMode;
-
-  darkModeCheckbox.onchange = () => {
-    AppState.settings.darkMode = darkModeCheckbox.checked;
+  const darkCheck = document.createElement("input");
+  darkCheck.type = "checkbox";
+  darkCheck.checked = AppState.settings.darkMode;
+  darkCheck.onchange = () => {
+    AppState.settings.darkMode = darkCheck.checked;
     saveStorage({ settings: AppState.settings });
-    applyDarkMode(darkModeCheckbox.checked); // 背景のみ変更
+    applyDarkMode(darkCheck.checked);
   };
 
-  darkModeLabel.prepend(darkModeCheckbox);
-  settingsContent.appendChild(darkModeLabel);
+  darkLabel.prepend(darkCheck);
+  settingsContent.appendChild(darkLabel);
 
   // =====================
-  // 3. ボタンホバー虹色
+  // 3. ダーク背景色
   // =====================
-  const rainbowLabel = document.createElement("label");
-  rainbowLabel.style.display = "flex";
-  rainbowLabel.style.alignItems = "center";
-  rainbowLabel.style.gap = "6px";
-  rainbowLabel.textContent = "ボタンホバー時に虹色にする";
+  const bgLabel = document.createElement("label");
+  bgLabel.textContent = "ダーク背景色";
+  bgLabel.style.display = "flex";
+  bgLabel.style.gap = "6px";
 
-  const rainbowCheckbox = document.createElement("input");
-  rainbowCheckbox.type = "checkbox";
-  rainbowCheckbox.checked = AppState.settings.rainbowHover;
-
-  rainbowCheckbox.onchange = () => {
-    AppState.settings.rainbowHover = rainbowCheckbox.checked;
+  const bgPicker = document.createElement("input");
+  bgPicker.type = "color";
+  bgPicker.value = AppState.settings.darkBgColor;
+  bgPicker.oninput = () => {
+    AppState.settings.darkBgColor = bgPicker.value;
     saveStorage({ settings: AppState.settings });
-    applyRainbowHover(rainbowCheckbox.checked);
+    applyDarkMode(true);
   };
 
-  rainbowLabel.prepend(rainbowCheckbox);
-  settingsContent.appendChild(rainbowLabel);
+  bgLabel.appendChild(bgPicker);
+  settingsContent.appendChild(bgLabel);
 
   // =====================
-  // 4. 初期設定読み込み（確認ダイアログ）
+  // 4. ダーク文字色
+  // =====================
+  const textLabel = document.createElement("label");
+  textLabel.textContent = "ダーク文字色";
+  textLabel.style.display = "flex";
+  textLabel.style.gap = "6px";
+
+  const textPicker = document.createElement("input");
+  textPicker.type = "color";
+  textPicker.value = AppState.settings.darkTextColor;
+  textPicker.oninput = () => {
+    AppState.settings.darkTextColor = textPicker.value;
+    saveStorage({ settings: AppState.settings });
+    applyDarkMode(true);
+  };
+
+  textLabel.appendChild(textPicker);
+  settingsContent.appendChild(textLabel);
+
+//   // =====================
+//   // 5. ダーク虹背景
+//   // =====================
+//   const rainbowBgLabel = document.createElement("label");
+//   rainbowBgLabel.textContent = "ダークモード背景を虹色にする";
+//   rainbowBgLabel.style.display = "flex";
+//   rainbowBgLabel.style.gap = "6px";
+
+//   const rainbowBgCheck = document.createElement("input");
+//   rainbowBgCheck.type = "checkbox";
+//   rainbowBgCheck.checked = AppState.settings.darkRainbowBg;
+//   rainbowBgCheck.onchange = () => {
+//     AppState.settings.darkRainbowBg = rainbowBgCheck.checked;
+//     saveStorage({ settings: AppState.settings });
+//     applyDarkMode(true);
+//   };
+
+//   rainbowBgLabel.prepend(rainbowBgCheck);
+//   settingsContent.appendChild(rainbowBgLabel);
+
+  // =====================
+  // 6. ホバー虹色
+  // =====================
+  const hoverLabel = document.createElement("label");
+  hoverLabel.textContent = "ボタンホバー虹色";
+  hoverLabel.style.display = "flex";
+  hoverLabel.style.gap = "6px";
+
+  const hoverCheck = document.createElement("input");
+  hoverCheck.type = "checkbox";
+  hoverCheck.checked = AppState.settings.rainbowHover;
+  hoverCheck.onchange = () => {
+    AppState.settings.rainbowHover = hoverCheck.checked;
+    saveStorage({ settings: AppState.settings });
+    applyRainbowHover(hoverCheck.checked);
+  };
+
+  hoverLabel.prepend(hoverCheck);
+  settingsContent.appendChild(hoverLabel);
+
+  // =====================
+  // 初期化ボタン
   // =====================
   const resetBtn = document.createElement("button");
   resetBtn.textContent = "初期設定を読み込む";
-  resetBtn.style.marginTop = "6px";
   resetBtn.onclick = () => {
-    if (confirm("本当に初期設定に戻しますか？保存されていない内容は失われます。")) {
-      AppState.sets = JSON.parse(JSON.stringify(window.DEFAULT_CONFIG.sets));
-      AppState.active = window.DEFAULT_CONFIG.activeSet;
-      saveStorage({ sets: AppState.sets, activeSet: AppState.active });
-      renderTabs();
-      renderButtons();
-      alert("初期設定をロードしました");
-    }
+    if (!confirm("本当に初期設定に戻しますか？")) return;
+    AppState.sets = JSON.parse(JSON.stringify(window.DEFAULT_CONFIG.sets));
+    AppState.active = window.DEFAULT_CONFIG.activeSet;
+    saveStorage({ sets: AppState.sets });
+    renderTabs();
+    renderButtons();
+    alert("初期設定をロードしました");
   };
   settingsContent.appendChild(resetBtn);
 
@@ -152,18 +210,14 @@ window.initSettings = function() {
     input.click();
   };
   settingsContent.appendChild(importBtn);
-
   // =====================
-  // パネルを開く
+  // パネル表示
   // =====================
   settingsPanel.classList.add("open");
 
-  // パネル閉じる
   const closeBtn = document.getElementById("closeSettingsBtn");
   if (closeBtn) closeBtn.onclick = () => settingsPanel.classList.remove("open");
 
-  // =====================
-  // 初期表示でダークモード反映
-  // =====================
+  // 初期反映
   applyDarkMode(AppState.settings.darkMode);
 };

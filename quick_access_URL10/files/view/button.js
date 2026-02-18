@@ -127,10 +127,37 @@ window.renderButtons = function () {
 // =====================
 // ダークモード
 // =====================
+// =====================
+// ダークモード（カスタム対応）
+// =====================
 function applyDarkMode(enable) {
   const body = document.body;
+  const buttonsEl = document.getElementById("buttons");
+  const tabsEl = document.getElementById("tabs");
+
   if (!body) return;
-  body.style.background = enable ? "#2c2c53" : "#fafafa";
+
+  const bgColor = AppState.settings.darkBgColor || "#7f7f93";
+  const textColor = AppState.settings.darkTextColor || "#ffffff";
+  const rainbow = AppState.settings.darkRainbowBg || false;
+
+  if (enable) {
+    if (rainbow) {
+      body.style.background =
+        "linear-gradient(135deg, #ff0080, #7928ca, #2afadf, #00f2fe)";
+      body.style.backgroundSize = "400% 400%";
+      body.style.animation = "darkRainbow 12s ease infinite";
+    } else {
+      body.style.background = bgColor;
+      body.style.animation = "";
+    }
+
+    body.style.color = textColor;
+  } else {
+    body.style.background = "#fafafa";
+    body.style.color = "#000000";
+    body.style.animation = "";
+  }
 }
 
 // =====================

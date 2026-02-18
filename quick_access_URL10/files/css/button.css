@@ -68,8 +68,8 @@
 /* =====================
    設定ボタン
 ===================== */
-.settings-btn {
-  background: #2255a1;
+.setting-btn {
+  background: #95a2b6;
   color: #fff;
   font-weight: bold;
   font-size: 14px;
@@ -83,8 +83,8 @@
   transition: transform 0.1s ease, background 0.15s ease;
 }
 
-.settings-btn:hover {
-  background: #35507b;
+.setting-btn:hover {
+  background: #566275;
   transform: scale(1.03);
 }
 
