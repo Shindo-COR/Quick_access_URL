@@ -1,0 +1,28 @@
+body {
+  width: 260px;
+  font-family: sans-serif;
+  padding: 10px;
+}
+
+#tabs button {
+  margin-right: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+#buttons button {
+  width: 100%;
+  margin: 4px 0;
+  padding: 8px;
+  border: none;
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#footer {
+  margin-top: 10px;
+  text-align: right;
+}
+

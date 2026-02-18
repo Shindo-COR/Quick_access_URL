@@ -1,0 +1,118 @@
+@charset 'UTF-8';
+/* カラー変更を行う場合はこちらから変更してください */
+:root {
+	/* 環境が表示されているボタン */
+	--btn-bg: #fed0ffde; /* 背景色 */
+	--btn-bg-hover: #cb5bceb8; /* ホバー時の背景色 */
+	--btn-color: #fff; /* 文字色 */
+	--stgbtn-bg: #adadad33; /* staging・台湾ボタンが非活性の時の背景色 */
+	--stgbtn-color: #5a5252; /* staging・台湾ボタンが非活性の時の文字色 */
+
+	/* 「新規タブを開く」のトグルボタン */
+	--tglbtn-knob-off: #adadad; /* トグルボタンがオフの時のボタンの色 */
+	--tglbtn-track-off: #adadad33; /* トグルボタンがオフの時の背景色 */
+	--tglbtn-knob-on: #feccff; /* トグルボタンがオンの時のボタンの色 */
+	--tglbtn-track-on: #feccff33; /* トグルボタンがオンの時の背景色 */
+	--tglbtn-color: #fff; /* トグルボタンの文字色 */
+}
+
+.eki_env_switch {
+	width: 200px;
+	.error_txt {
+		text-align: center;
+	}
+	/* 以下env切り替えボタン用css */
+	.btn-wrap {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		button {
+			margin: 5px;
+			padding: 8px 16px;
+			border: none;
+			background: var(--btn-bg);
+			color: var(--btn-color);
+			border-radius: 6px;
+			cursor: pointer;
+		}
+		button:hover {
+			background: var(--btn-bg-hover);
+		}
+		#staging:disabled {
+			background: var(--stgbtn-bg);
+			color: var(--stgbtn-color)
+		}
+		#hexin77:disabled {
+			background: var(--stgbtn-bg);
+			color: var(--stgbtn-color)
+		}
+		/* #prod {
+			background: #ff4d9ede;
+		} */
+	}
+	/* ここまでenv切り替えボタン用css */
+
+	/* 以下トグルボタン用css */
+	.new_tab_wrap {
+		display: flex;
+		align-items: center;
+		p {
+			margin-left: 5px;
+		}
+		.toggle_button {
+			display: flex;
+			align-items: center;
+			position: relative;
+			width: 50px;
+			height: 25px;
+			border-radius: 25px;
+			box-sizing: content-box;
+			background-color: var(--tglbtn-track-off);
+			cursor: pointer;
+			transition: background-color .4s;
+			margin-right: 10px;
+			margin-left: auto;
+
+			&:has(:checked) {
+				background-color: var(--tglbtn-track-on);
+			}
+
+			&::before {
+				position: absolute;
+				left: 5px;
+				width: 21px;
+				height: 21px;
+				border-radius: 50%;
+				background-color: var(--tglbtn-knob-off);
+				content: '';
+				transition: left .4s;
+			}
+
+			&:has(:checked)::before {
+				left: 25px;
+				background-color: var(--tglbtn-knob-on);
+			}
+
+			&::after {
+				position: absolute;
+				left: 15px;
+				transform: translateX(-50%);
+				color: #fff;
+				font-weight: 600;
+				font-size: .9em;
+				content: 'No';
+				transition: left .4s;
+			}
+
+			&:has(:checked)::after {
+				left: 35.5px;
+				content: 'Yes';
+			}
+
+			& input {
+				display: none;
+			}
+		}
+	}
+	/* ここまでトグルボタン用css */
+}

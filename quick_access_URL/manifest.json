@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Quick Access URL",
+  "version": "1.0",
+  "description": "ワンクリックURLジャンプツール",
+  "action": {
+    "default_popup": "files/index.html"
+  },
+  "options_page": "files/option.html",
+  "permissions": ["storage", "tabs"],
+  "icons": {
+    "128": "img/icon.png"
+  }
+}

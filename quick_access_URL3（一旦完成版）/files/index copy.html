@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Access URL</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+
+<!-- Tabs -->
+<div id="tabs" class="tabs">
+  <!-- JSでタブを挿入 -->
+  <button id="addTabBtn" class="add-tab-btn" aria-label="タブ追加">＋</button>
+</div>
+
+
+<!-- Buttons -->
+<div id="buttons" class="buttons"></div>
+
+
+<!-- Slide-in Editor Panel -->
+<div id="editorPanel" class="editor-panel">
+  <div class="editor-header">
+    <span class="editor-title">タブ編集画面</span>
+    <button id="closeEditor" class="close-btn" aria-label="Close editor">
+      ✕ 編集を閉じる
+    </button>
+  </div>
+
+  <!-- タブ編集リスト -->
+  <div id="editorContent" class="editor-content">
+    <!-- JSで編集UIを生成 -->
+  </div>
+</div>
+
+
+<!-- Scripts -->
+<script src="defaultconfig.js"></script>
+<script src="storage.js"></script>
+
+<script src="tab.js"></script>
+<script src="button.js"></script>
+<script src="editor.js"></script>
+<script src="autosave.js"></script>
+
+<!-- 全てのスクリプトをモジュールとして読み込むため、最後にmain.jsをモジュールとして読み込みます。 -->
+<script src="main.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+/* =====================
+   Editor Panel
+===================== */
+
+.editor-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: calc(100vw - 20px);
+  height: 100vh;
+  background: #fafafa;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease;
+  padding: 8px;
+  z-index: 9999;
+  transform: translateX(100%);
+}
+
+.sidebar.collapsed + #buttons ~ .editor-panel {
+  width: calc(100vw - 42px);
+}
+
+.editor-panel.open {
+  transform: translateX(0);
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+  font-size: 14px;
+  background: #fafafa;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.close-btn {
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  left: 40%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+
+.close-btn:hover {
+  background: #e6393b;
+  transform: scale(1.05);
+}
+
+.close-btn:active {
+  transform: scale(0.95);
+}
+
+#editorContent {
+  overflow-y: auto;
+  max-height: calc(100vh - 60px);
+}
+
+/* =====================
+   URL List Rows
+===================== */
+
+.row {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+  align-items: center;
+}
+
+.row .label {
+  flex: 0 0 80px;
+}
+
+.row .url {
+  flex: 1;
+  min-width: 120px;
+}
+
+.row .color {
+  flex: 0 0 40px;
+  padding: 0;
+  height: 20px;
+}
+
+.row .delete {
+  flex: 0 0 24px;
+  background: #ff6666;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1;
+}

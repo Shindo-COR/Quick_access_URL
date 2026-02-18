@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Quick Access URL",
+  "version": "2.0",
+  "permissions": ["storage", "tabs", "sidePanel"],
+  "side_panel": {
+    "default_path": "files/index.html"
+  },
+  "action": {
+    "default_title": "Quick Access URL"
+  },
+  "icons": {
+    "128": "img/icon.png"
+  },
+  "background": {
+  "service_worker": "controller/background.js"
+  },
+  "web_accessible_resources": [
+		{
+			"resources": ["img/*"],
+			"matches": ["<all_urls>"]
+		}
+  ]
+}

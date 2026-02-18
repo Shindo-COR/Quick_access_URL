@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+<!-- メインコンテナ: 左にタブ、右にボタン領域 -->
+<div id="mainContainer">
+  <!-- 左カラム: タブ -->
+  <div id="tabs" class="tabs"></div>
+
+  <!-- 右カラム: ボタン -->
+  <div id="buttons"></div>
+</div>
+
+<!-- エディタパネル -->
+<div id="editorPanel" class="editor-panel">
+  <div class="editor-header">
+    <span>編集する</span>
+    <button id="closeEditor">編集を閉じる</button>
+  </div>
+  <div id="editorContent"></div>
+</div>
+
+<!-- JS -->
+<script src="defaultconfig.js"></script>
+<script src="model/state.js"></script>
+<script src="model/storage.js"></script>
+<script src="view/tab.js"></script>
+<script src="view/button.js"></script>
+<script src="view/editor.js"></script>
+<script src="view/autosave.js"></script>
+<script src="controller/main.js"></script>
+
+</body>
+</html>

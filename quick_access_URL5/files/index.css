@@ -1,0 +1,281 @@
+/* =====================
+   Base
+===================== */
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 8px;
+  width: 400px;   /* popup横幅 */
+  height: 370px;  /* popup縦幅 */
+  box-sizing: border-box;
+  font-size: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+span {
+  font-weight: bold;
+}
+
+/* =====================
+   Layout: Tabs Left / Buttons Right
+===================== */
+
+/* メインコンテナ */
+#mainContainer {
+  display: flex;           /* 左右に分ける */
+  gap: 8px;
+  height: 100%;
+}
+
+/* タブ領域 */
+#tabs {
+  display: flex;
+  flex-direction: column;  /* 縦並び */
+  gap: 4px;
+  width: 135px;            /* 左側固定幅 */
+  overflow-y: auto;
+}
+
+/* タブ本体 */
+.tab {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 6px;
+  border-radius: 6px;
+  background: #f2f2f2;
+  cursor: pointer;
+  font-size: 11px;
+  border: 1px solid #ddd;
+}
+
+.tab span {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tab.active {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* 編集ボタン */
+.editTabBtn {
+  border: 1px dashed #f0f0f0;
+  background: #fff;
+  border-radius: 999px;
+  padding: 1px 5px;
+  font-size: 10px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.editTabBtn:hover {
+  opacity: 1;
+  background: #ffe9a8;
+  border-style: solid;
+}
+
+/* + タブボタン */
+.add-tab-btn {
+  padding: 3px 8px;
+  border-radius: 50%;
+  border: 1px dashed #aaa;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+.add-tab-btn:hover {
+  background: #e8f0ff;
+}
+
+/* ボタン領域 */
+#buttons {
+  flex: 1;                  /* 残り領域を占有 */
+  display: flex;
+  flex-direction: column;    /* 縦並び */
+  margin-right: 1rem;
+  gap: 8px;
+  overflow-y: auto;          /* スクロール継続 */
+}
+
+/* 各ボタン */
+#buttons button {
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: white;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  transition: transform 0.08s ease, box-shadow 0.12s ease;
+  border-left: 4px solid rgba(255,255,255,0.4);
+}
+
+#buttons button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+}
+
+/* =====================
+   Editor Panel
+===================== */
+
+.editor-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #fafafa;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease;
+  padding: 8px;
+  z-index: 9999;
+  transform: translateX(100%);
+}
+
+.editor-panel.open {
+  transform: translateX(0);
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+  font-size: 14px;
+  background: #fafafa;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.close-btn {
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+.close-btn:hover {
+  background: #e6393b;
+  transform: scale(1.05);
+}
+.close-btn:active {
+  transform: scale(0.95);
+}
+
+#editorContent {
+  overflow-y: auto;
+  max-height: calc(100vh - 60px);
+}
+
+/* Editor Rows */
+.row {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+  align-items: center;
+}
+.row .label {
+  flex: 0 0 80px;
+}
+.row .url {
+  flex: 1;
+  min-width: 120px;
+}
+.row .color {
+  flex: 0 0 40px;
+  padding: 0;
+  height: 20px;
+}
+.row .delete {
+  flex: 0 0 24px;
+  background: #ff6666;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* Inputs */
+input {
+  padding: 4px 6px;
+  font-size: 11px;
+}
+
+/* Buttons */
+button {
+  padding: 4px 6px;
+  font-size: 11px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  background: #ddd;
+}
+button:hover {
+  background: #ccc;
+}
+
+/* Tooltip */
+.url-tooltip {
+  position: absolute;
+  background: #111;
+  color: #fff;
+  padding: 4px 6px;
+  font-size: 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 99999;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+/* =====================
+   Tab Header (My Set)
+===================== */
+
+#mainContainer {
+  display: flex;
+  height: 100%;
+  gap: 8px;
+}
+
+/* 左カラム */
+#tabColumn {
+  display: flex;
+  flex-direction: column;
+  /* width: 120px; */
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ヘッダー */
+.tab-header {
+  font-size: 13px;
+  font-weight: 700;
+  color: #444;
+  padding: 4px 6px;
+  border-left: 3px solid #4f46e5;
+  background: #f5f5ff;
+  border-radius: 4px;
+}
+
+
+
+
