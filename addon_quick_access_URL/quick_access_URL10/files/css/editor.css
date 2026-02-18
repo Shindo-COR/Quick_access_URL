@@ -45,11 +45,11 @@
 	border: none;
 	border-radius: 999px;
 	padding: 6px 14px;
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: bold;
 	cursor: pointer;
 	position: absolute;
-	left: 18%;
+	left: 22%;
 	box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 	transition: transform 0.1s ease, background 0.15s ease;
 }

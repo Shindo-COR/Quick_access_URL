@@ -121,7 +121,7 @@ const actions = document.createElement("div");
 actions.className = "setting-actions";
 
 const resetBtn = document.createElement("button");
-resetBtn.textContent = "初期設定にリセットボタン";
+resetBtn.textContent = "初期設定にリセット";
 resetBtn.onclick = () => {
 	if (!confirm("本当に初期設定に戻しますか？変更内容はすべて失われます。")) return;
 	AppState.sets = JSON.parse(JSON.stringify(window.DEFAULT_CONFIG.sets));

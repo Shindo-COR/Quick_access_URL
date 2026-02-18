@@ -34,13 +34,15 @@ function drawRows() {
 		<button class="delete">×</button>
 	`;
 	row.querySelector(".delete").onclick = () => {
-		set.buttons.splice(i,1);
+		const name = b.label || "このボタン";
+		if (!confirm(`本当に「${name}」を削除しますか？\nこの操作は元に戻せません。`)) return;
+
+		set.buttons.splice(i, 1);
 		drawRows();
 	};
 	btnEditor.appendChild(row);
 	});
 }
-
 
 drawRows();
 
@@ -70,7 +72,16 @@ duplicateBtn.onclick = () => {
 const deleteBtn = document.getElementById("deleteTab");
 deleteBtn.onclick = () => {
 	const keys = Object.keys(AppState.sets);
-	if (keys.length <= AppState.MIN_TABS) { alert("最低1つのタブが必要です"); return; }
+	if (keys.length <= AppState.MIN_TABS) {
+		alert("最低1つのタブが必要です");
+		return;
+	}
+
+	const tabTitle = AppState.sets[key]?.title || key;
+	const ok = confirm(`タブ「${tabTitle}」を削除しますか？\n中のボタンもすべて消えます。`);
+
+	if (!ok) return;
+
 	delete AppState.sets[key];
 	AppState.active = Object.keys(AppState.sets)[0];
 	saveStorage({ sets: AppState.sets, activeSet: AppState.active });
