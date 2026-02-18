@@ -6,55 +6,67 @@ tooltip.className = "url-tooltip";
 document.body.appendChild(tooltip);
 
 window.renderButtons = function() {
-  const buttonsEl = document.getElementById("buttons");
-  if (!buttonsEl) return;
-  buttonsEl.innerHTML = "";
+  const mainButtonsEl = document.getElementById("buttons");
+  const topButtonsEl = document.getElementById("topButtons");
+  const bottomButtonsEl = document.getElementById("bottomButtons");
+
+  if (!mainButtonsEl || !topButtonsEl || !bottomButtonsEl) return;
+
+  mainButtonsEl.innerHTML = "";
+  topButtonsEl.innerHTML = "";
+  bottomButtonsEl.innerHTML = "";
+// system button 共通クラス
+const SYSTEM_BTN_CLASS = "qa-main-style";
+
+
+
+
 
   // =====================
-  // 拡張機能閉じるボタン（固定）
+  // 閉じるボタン
   // =====================
-  const closeExtBtn = document.createElement("button");
-  closeExtBtn.textContent = "✖ Quick Access URLを閉じる";
-  closeExtBtn.className = "close-extension-btn";
-  closeExtBtn.onclick = () => window.close();
+const closeExtBtn = document.createElement("button");
+closeExtBtn.textContent = "✖ Quick Access URLを閉じる";
+closeExtBtn.className = `close-extension-btn ${SYSTEM_BTN_CLASS}`;
+closeExtBtn.onclick = () => window.close();
 
   // =====================
-  // 設定ボタン（固定）
+  // 設定ボタン
   // =====================
-  const settingBtn = document.createElement("button");
-  settingBtn.textContent = "⚙ 設定";
-  settingBtn.className = "setting-btn";
-  settingBtn.onclick = () => {
-    const settingsPanel = document.getElementById("settingsPanel");
-    if (settingsPanel) {
-      settingsPanel.classList.toggle("open");
-      if (typeof window.initSettings === "function") {
-        window.initSettings(); // パネル内容を初期化・描画
-      }
-    }
-  };
+const settingBtn = document.createElement("button");
+settingBtn.textContent = "⚙ 設定";
+settingBtn.className = `setting-btn ${SYSTEM_BTN_CLASS}`;
+settingBtn.onclick = () => {
+  const settingsPanel = document.getElementById("settingsPanel");
+  if (settingsPanel) {
+    settingsPanel.classList.toggle("open");
+    initSettings();
+  }
+};
 
   // =====================
-  // ボタン位置に応じて追加
+  // ボタン位置設定
   // =====================
-  const position = AppState.settings?.buttonsOnTop ?? true; // true=上
-  if (!position) {
-    buttonsEl.appendChild(closeExtBtn);
-    buttonsEl.appendChild(settingBtn);
-  } else {
-    buttonsEl.appendChild(settingBtn);
-    buttonsEl.appendChild(closeExtBtn);
+  const onTop = AppState.settings?.buttonsOnTop ?? true;
+  const targetContainer = onTop ? topButtonsEl : bottomButtonsEl;
+
+  targetContainer.appendChild(closeExtBtn);
+  targetContainer.appendChild(settingBtn);
+
+  // =====================
+  // 区切り線（トップ側のみ表示）
+  // =====================
+  if (onTop) {
+    const hr = document.createElement("hr");
+    hr.style.margin = "6px 0";
+    topButtonsEl.appendChild(hr);
   }
 
-  // アンダーライン
-  const hr = document.createElement("hr");
-  hr.style.margin = "6px 0";
-  buttonsEl.appendChild(hr);
-
   // =====================
-  // メインURLボタン群
+  // メインURLボタン
   // =====================
   const list = AppState.sets[AppState.active]?.buttons || [];
+  
   list.forEach((b, i) => {
     const btn = document.createElement("button");
     btn.textContent = b.label;
@@ -81,26 +93,22 @@ window.renderButtons = function() {
       btn.style.background = btn.dataset.color;
     };
 
-    buttonsEl.appendChild(btn);
+    mainButtonsEl.appendChild(btn);
   });
 
   // =====================
-  // SortableJSでドラッグ（メインボタンのみ）
+  // Sortable（メインボタンのみ）
   // =====================
   if (typeof Sortable !== "undefined") {
-    if (buttonsEl._sortable) buttonsEl._sortable.destroy();
+    if (mainButtonsEl._sortable) mainButtonsEl._sortable.destroy();
 
-    buttonsEl._sortable = Sortable.create(buttonsEl, {
+    mainButtonsEl._sortable = Sortable.create(mainButtonsEl, {
       animation: 150,
       ghostClass: "dragging",
-      filter: ".close-extension-btn, .setting-btn",
-      onMove: (evt) =>
-        !evt.related.classList.contains("close-extension-btn") &&
-        !evt.related.classList.contains("setting-btn"),
       onEnd: (evt) => {
         const buttons = AppState.sets[AppState.active].buttons;
-        const movedItem = buttons.splice(evt.oldIndex - 3, 1);
-        buttons.splice(evt.newIndex - 3, 0, movedItem[0]);
+        const moved = buttons.splice(evt.oldIndex, 1);
+        buttons.splice(evt.newIndex, 0, moved[0]);
         saveStorage({ sets: AppState.sets });
         renderButtons();
       },
@@ -108,7 +116,7 @@ window.renderButtons = function() {
   }
 
   // =====================
-  // 設定パネル閉じるボタン
+  // 設定パネル閉じる
   // =====================
   const closeSettingBtn = document.getElementById("closeSettingsBtn");
   if (closeSettingBtn) {
@@ -118,6 +126,7 @@ window.renderButtons = function() {
     };
   }
 };
+
 
 // =====================
 // ダークモード（背景のみ）
