@@ -12,7 +12,7 @@ buttonsEl.innerHTML = "";
 // 固定ボタン生成
 // =====================
 const closeExtBtn = document.createElement("button");
-closeExtBtn.textContent = "✖ Quick Access URLを閉じる";
+closeExtBtn.textContent = "✖ 終了する";
 closeExtBtn.className = "close-extension-btn";
 closeExtBtn.onclick = () => window.close();
 
