@@ -123,18 +123,31 @@ actions.className = "setting-actions";
 const resetBtn = document.createElement("button");
 resetBtn.textContent = "初期設定にリセット";
 resetBtn.onclick = () => {
-	if (!confirm("本当に初期設定に戻しますか？変更内容はすべて失われます。")) return;
+	if (!confirm("本当に完全初期設定に戻しますか？すべて消えます。")) return;
+	// deep clone
 	AppState.sets = JSON.parse(JSON.stringify(window.DEFAULT_CONFIG.sets));
 	AppState.active = window.DEFAULT_CONFIG.activeSet;
-	saveStorage({ sets: AppState.sets });
+	AppState.settings = JSON.parse(JSON.stringify(window.DEFAULT_CONFIG.settings));
+
+	// storage も完全上書き
+	saveStorage({
+		sets: AppState.sets,
+		activeSet: AppState.active,
+		settings: AppState.settings
+	});
+
 	renderTabs();
 	renderButtons();
-	alert("初期設定をロードしました");
+	initSettings();
+	applyDarkMode(AppState.settings.darkMode);
+
+	alert("完全に初期設定にリセットしました");
 };
+
 actions.appendChild(resetBtn);
 
 	const exportBtn = document.createElement("button");
-	exportBtn.textContent = "初期設定をセーブ";
+	exportBtn.textContent = "設定をエクスポート";
 	exportBtn.onclick = () => {
 
 	// すべて含める
@@ -157,7 +170,7 @@ actions.appendChild(resetBtn);
 actions.appendChild(exportBtn);
 
 const importBtn = document.createElement("button");
-importBtn.textContent = "初期設定をロード";
+importBtn.textContent = "設定をインポート";
 importBtn.onclick = () => {
 const input = document.createElement("input");
 input.type = "file";
