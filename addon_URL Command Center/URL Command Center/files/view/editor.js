@@ -21,28 +21,44 @@ content.innerHTML = `
 
 const btnEditor = document.getElementById("btnEditor");
 
-// ボタン行描画
-function drawRows() {
-	btnEditor.innerHTML = "";
-	set.buttons.forEach((b, i) => {
-	const row = document.createElement("div");
-	row.className = "row";
-	row.innerHTML = `
-		<input class="label" placeholder="ボタン名を入力" value="${b.label}">
-		<input class="url" placeholder="URLを入力" value="${b.url}">
-		<input type="color" class="color" value="${b.color}">
-		<button class="delete">×</button>
-	`;
-	row.querySelector(".delete").onclick = () => {
-		const name = b.label || "このボタン";
-		if (!confirm(`本当に「${name}」を削除しますか？\nこの操作は元に戻せません。`)) return;
+	// ボタン行描画
+	function drawRows() {
+		btnEditor.innerHTML = "";
 
-		set.buttons.splice(i, 1);
-		drawRows();
-	};
-	btnEditor.appendChild(row);
-	});
-}
+		set.buttons.forEach((b, i) => {
+			const row = document.createElement("div");
+			row.className = "row";
+			row.innerHTML = `
+			<input class="label" placeholder="ボタン名" value="${b.label}">
+			<input class="url" placeholder="URL" value="${b.url}">
+			<input type="color" class="color" value="${b.color}">
+			<button class="duplicate">⇩</button>
+			<button class="delete">×</button>
+			`;
+
+			// 入力反映
+			row.querySelector(".label").oninput = e => b.label = e.target.value;
+			row.querySelector(".url").oninput = e => b.url = e.target.value;
+			row.querySelector(".color").oninput = e => b.color = e.target.value;
+
+			//  削除
+			row.querySelector(".delete").onclick = () => {
+			if (!confirm("このボタンを削除しますか？")) return;
+			set.buttons.splice(i, 1);
+			drawRows();
+			};
+
+			//  複製
+			row.querySelector(".duplicate").onclick = () => {
+			const clone = JSON.parse(JSON.stringify(b));
+			clone.label = b.label + "（コピー）";
+			set.buttons.splice(i + 1, 0, clone);
+			drawRows();
+			};
+
+			btnEditor.appendChild(row);
+		});
+	}
 
 drawRows();
 
