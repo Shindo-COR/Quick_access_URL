@@ -161,25 +161,38 @@ if (enable) {
 // 虹色ホバー
 // =====================
 function applyRainbowHover(enable) {
-const buttonsEl = document.getElementById("buttons");
-if (!buttonsEl) return;
+	const buttonsEl = document.getElementById("buttons");
+	if (!buttonsEl) return;
 
-buttonsEl.querySelectorAll("button").forEach((btn) => {
-	if (btn.classList.contains("close-extension-btn") || btn.classList.contains("setting-btn")) return;
+	buttonsEl.querySelectorAll("button").forEach((btn) => {
+		if (btn.classList.contains("close-extension-btn") || btn.classList.contains("setting-btn")) return;
 
-	if (enable) {
-	btn.onmouseenter = () => {
-		btn.style.background = "linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet)";
-		btn.style.backgroundSize = "400% 100%";
-		btn.style.animation = "rainbowSlide 3s linear infinite";
-	};
-	btn.onmouseleave = () => {
+		//  まず必ずイベント解除
+		btn.onmouseenter = null;
+		btn.onmouseleave = null;
+
+		// 元の色に戻す
+		if (btn.dataset.color) {
 		btn.style.background = btn.dataset.color;
+		}
 		btn.style.animation = "";
-	};
+
+		// ONのときだけ再登録
+		if (enable) {
+		btn.onmouseenter = () => {
+			btn.style.background =
+			"linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet)";
+			btn.style.backgroundSize = "400% 100%";
+			btn.style.animation = "rainbowSlide 3s linear infinite";
+		};
+
+		btn.onmouseleave = () => {
+			btn.style.background = btn.dataset.color;
+			btn.style.animation = "";
+		};
+		}
+	});
 	}
-});
-}
 
 // 初期反映
 applyDarkMode(AppState.settings?.darkMode ?? false);
