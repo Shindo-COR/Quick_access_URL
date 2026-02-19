@@ -120,6 +120,7 @@ window.renderButtons = function () {
 		if (panel) panel.classList.remove("open");
 		};
 	}
+	applyDarkMode(AppState.settings?.darkMode ?? false);
 	applyRainbowHover(AppState.settings?.rainbowHover ?? false);
 };
 

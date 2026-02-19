@@ -210,30 +210,68 @@ function extractPrefix(pattern) {
 // ============================
 // マークダウンから URL抽出
 // ============================
-
 function parseIssueMarkdown(md) {
 	if (!md) return {};
+	const cfg = window.DEFAULT_CONFIG;
 	const map = {};
-	const rules = window.DEFAULT_CONFIG.markdownRules;
 
+	const rules = cfg.markdownLinkRules.sort(
+		(a, b) => (b.priority || 0) - (a.priority || 0)
+	);
+
+	// =========================
+	// 1: セクション解析
+	// =========================
+	const sections = md.split(/\n#{2,}\s+/);
+
+	for (const sec of sections) {
+		const title = sec.split("\n")[0]?.trim() || "";
+		const urls = sec.match(/https?:\/\/[^\s)]+/g);
+		if (!urls) continue;
+
+		applyRules(title, urls, rules, map);
+	}
+
+	// =========================
+	// 2: URL直前行解析
+	// =========================
 	const lines = md.split("\n");
-
 	for (let i = 0; i < lines.length; i++) {
-		const line = lines[i].trim();
+		const line = lines[i];
+		const urlMatch = line.match(/https?:\/\/[^\s)]+/);
+		if (!urlMatch) continue;
 
-		for (const r of rules) {
-		if (!r.match.test(line)) continue;
+		const url = urlMatch[0];
+		const prev = (lines[i - 1] || "").trim();
+		const prev2 = (lines[i - 2] || "").trim();
 
-		// 次の行からURL探す
-		for (let j = i + 1; j < i + 5; j++) {
-			const m = lines[j]?.match(/https?:\/\/[^\s)]+/);
-			if (m) {
-			map[r.label] = m[0];
-			break;
-			}
-		}
-		}
+		// context候補（前行→前々行）
+		const context = prev || prev2;
+		if (!context) continue;
+
+		applyRules(context, [url], rules, map);
 	}
 
 	return map;
+}
+
+
+// =========================
+// ルール適用共通関数
+// =========================
+function applyRules(title, urls, rules, map) {
+	for (const rule of rules) {
+		if (!rule.matchTitle.test(title)) continue;
+		if (rule.exclude && rule.exclude.test(title)) continue;
+
+		let url = urls[0];
+		if (rule.pickUrl) {
+		url = urls.find(u => rule.pickUrl.test(u)) || url;
+		}
+
+		// 既存ラベルが無い場合のみセット（priority制御）
+		if (!map[rule.label]) {
+		map[rule.label] = url;
+		}
+	}
 }

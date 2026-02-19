@@ -68,7 +68,7 @@ sets: {
 
 settings: {
 	buttonsOnTop: true,
-	darkMode: false,
+	darkMode: true,
 	darkBgColor: "#182D46",
 	darkTextColor: "#493a3a",
 	darkRainbowBg: false,
@@ -114,19 +114,18 @@ tabPrefixRegex: "([^/]+)-X",
 
 tabPrefixPathHint: "view",
 
+markdownLinkRules: [
+  // 内部系は最優先
+  { label: "内部QA", matchTitle: /内部.*QA/i, priority: 100 },
+  { label: "内部修正シート", matchTitle: /内部.*修正/i, priority: 100 },
 
-markdownRules: [
-	{ match: /テスト仕様書/, label: "テスト仕様書" },
-	{ match: /仕様書|仕様\/修正内容|仕様/, label: "仕様書" },
+  // 外部 fallback
+  { label: "外部QA", matchTitle: /QA/i, exclude: /内部/i, priority: 10 },
+  { label: "外部修正シート", matchTitle: /修正/i, exclude: /内部/i, priority: 10 },
 
-	{ match: /デザイン/, label: "XD", pick: "xd" },
-
-	{ match: /内部用.*QAシート/, label: "内部QA" },
-	{ match: /内部用.*修正依頼シート/, label: "内部修正シート" },
-
-	{ match: /^(?!.*内部).*QAシート/, label: "外部QA" },
-	{ match: /^(?!.*内部).*修正依頼シート/, label: "外部修正シート" },
-
+  // その他
+  { label: "仕様書", matchTitle: /仕様/i },
+  { label: "XD", matchTitle: /デザイン|XD|Figma/i, pickUrl: /xd|figma/i },
 ],
 
 activeSet: "default"
