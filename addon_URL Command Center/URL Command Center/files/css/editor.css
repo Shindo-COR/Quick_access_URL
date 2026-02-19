@@ -102,6 +102,17 @@
 	font-size: 12px;
 	line-height: 1;
 }
+.row .duplicate {
+  background: #6bb86e;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+  width: 28px;
+}
+
+.row .duplicate:hover {
+  background: #5c9c5e;
+}
 
 
 /* =====================
