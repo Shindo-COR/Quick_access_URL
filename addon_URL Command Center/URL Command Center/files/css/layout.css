@@ -18,7 +18,7 @@
 
 /* サイドバー */
 .sidebar {
-	width: 163px;
+	width: 150px;
 	background: #fafafa;
 	border-right: 1px solid #ddd;
 	display: flex;
