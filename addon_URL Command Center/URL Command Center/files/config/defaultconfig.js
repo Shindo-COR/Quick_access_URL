@@ -75,23 +75,29 @@ settings: {
 	rainbowHover: false
 },
 backlogTemplates: {
-  normal: {
-    label: "ココア",
-    pattern: "https://cor.backlog.com/view/CCA-XXXX",
-    color: "#FF8DAB"
-  },
-  menesth: {
-    label: "リラクジョブ",
-    pattern: "https://cor.backlog.com/view/CCA_MENESTH-XXX",
-    color: "#61D4CA"
-  },
-  bug: {
-    label: "内部課題",
-    pattern: "https://cor.backlog.com/view/CCABUG-XXX",
-    color: "#f17074"
-  }
+	normal: {
+		labelPrefix: "CCA-",
+		labelName: "ココア",
+		pattern: "https://cor.backlog.com/view/CCA-XXXX",
+		color: "#FF8DAB"
+	},
+	menesth: {
+		labelPrefix: "CCA_MENESTH-",
+		labelName: "リラクジョブ",
+		pattern: "https://cor.backlog.com/view/CCA_MENESTH-XXX",
+		color: "#61D4CA"
+	},
+	bug: {
+		labelPrefix: "CCABUG-",
+		labelName: "ココア内部課題",
+		pattern: "https://cor.backlog.com/view/CCABUG-XXX",
+		color: "#f17074"
+	}
 },
-
+backlogApi: {
+	space: "cor",
+	apiKey: "6TQFGp1OiSBm1xeL1nvTPOGOFZ6VLU3Q9yCmgZaeAYSX2Pz69I6QMHpxC54mj1AQ"
+},
 
 
 activeSet: "default"
