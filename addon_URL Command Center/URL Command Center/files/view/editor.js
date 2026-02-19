@@ -60,6 +60,63 @@ const btnEditor = document.getElementById("btnEditor");
 		});
 	}
 
+	function drawRows() {
+		btnEditor.innerHTML = "";
+
+		set.buttons.forEach((b, i) => {
+			const row = document.createElement("div");
+			row.className = "row";
+			row.dataset.index = i;
+
+			row.innerHTML = `
+			<span class="drag-handle">☰</span>
+			<input class="label" placeholder="ボタン名" value="${b.label}">
+			<input class="url" placeholder="URL" value="${b.url}">
+			<input type="color" class="color" value="${b.color}">
+			<button class="duplicate">⇩</button>
+			<button class="delete">×</button>
+			`;
+
+			// 入力反映
+			row.querySelector(".label").oninput = e => b.label = e.target.value;
+			row.querySelector(".url").oninput = e => b.url = e.target.value;
+			row.querySelector(".color").oninput = e => b.color = e.target.value;
+
+			// 削除
+			row.querySelector(".delete").onclick = () => {
+			if (!confirm("このボタンを削除しますか？")) return;
+			set.buttons.splice(i, 1);
+			drawRows();
+			};
+
+			// 複製
+			row.querySelector(".duplicate").onclick = () => {
+			const clone = JSON.parse(JSON.stringify(b));
+			clone.label += "（コピー）";
+			set.buttons.splice(i + 1, 0, clone);
+			drawRows();
+			};
+
+			btnEditor.appendChild(row);
+		});
+
+		initSortable(); // ← 並び替え有効化
+	}
+	function initSortable() {
+		new Sortable(btnEditor, {
+			handle: ".drag-handle",
+			animation: 150,
+			ghostClass: "drag-ghost",
+			onEnd: function (evt) {
+			const moved = set.buttons.splice(evt.oldIndex, 1)[0];
+			set.buttons.splice(evt.newIndex, 0, moved);
+			drawRows(); // 再描画してindex更新
+			}
+		});
+	}
+
+
+
 drawRows();
 
 // URL追加
