@@ -134,7 +134,7 @@ resetBtn.onclick = () => {
 actions.appendChild(resetBtn);
 
 	const exportBtn = document.createElement("button");
-	exportBtn.textContent = "設定をエクスポート";
+	exportBtn.textContent = "初期設定をセーブ";
 	exportBtn.onclick = () => {
 
 	// すべて含める
@@ -157,7 +157,7 @@ actions.appendChild(resetBtn);
 actions.appendChild(exportBtn);
 
 const importBtn = document.createElement("button");
-importBtn.textContent = "設定をインポート";
+importBtn.textContent = "初期設定をロード";
 importBtn.onclick = () => {
 const input = document.createElement("input");
 input.type = "file";
@@ -193,7 +193,7 @@ input.onchange = (e) => {
 		renderButtons();
 		initSettings();
 
-		alert("設定ファイルをインポートしました");
+		alert("設定ファイルをロードしました");
 	} catch (err) {
 		alert("設定ファイルの読み込みに失敗しました");
 		console.error(err);
