@@ -98,7 +98,36 @@ backlogApi: {
 	space: "cor",
 	apiKey: "6TQFGp1OiSBm1xeL1nvTPOGOFZ6VLU3Q9yCmgZaeAYSX2Pz69I6QMHpxC54mj1AQ"
 },
+autoMysetTemplate: {
+	baseButtons: [
+		{ label: "仕様書", url: "", color: "#fbd460" },
+		{ label: "XD", url: "", color: "#8142b1" },
+		{ label: "内部修正シート", url: "", color: "#53ad5c" },
+		{ label: "外部修正シート", url: "", color: "#49c768" },
+		{ label: "外部QA", url: "", color: "#53ad5c" },
+		{ label: "内部QA", url: "", color: "#49c768" },
+		{ label: "実装したページ", url: "", color: "#ed8585" },
+	]
+},
 
+tabPrefixRegex: "([^/]+)-X",
+
+tabPrefixPathHint: "view",
+
+
+markdownRules: [
+	{ match: /テスト仕様書/, label: "テスト仕様書" },
+	{ match: /仕様書|仕様\/修正内容|仕様/, label: "仕様書" },
+
+	{ match: /デザイン/, label: "XD", pick: "xd" },
+
+	{ match: /内部用.*QAシート/, label: "内部QA" },
+	{ match: /内部用.*修正依頼シート/, label: "内部修正シート" },
+
+	{ match: /^(?!.*内部).*QAシート/, label: "外部QA" },
+	{ match: /^(?!.*内部).*修正依頼シート/, label: "外部修正シート" },
+
+],
 
 activeSet: "default"
 };

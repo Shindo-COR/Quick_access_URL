@@ -1,99 +1,239 @@
-window.renderTabs = function() {
-const tabsEl = document.getElementById("tabs");
-tabsEl.innerHTML = "";
+// ============================
+// タブ描画
+// ============================
+window.renderTabs = function () {
+	const tabsEl = document.getElementById("tabs");
+	tabsEl.innerHTML = "";
 
-const keys = Object.keys(AppState.sets);
-
-keys.forEach((key, index) => {
-	const tab = document.createElement("div");
-	tab.className = "tab";
-	tab.draggable = true; // ドラッグ可能
-	if (key === AppState.active) tab.classList.add("active");
-
-	const title = document.createElement("span");
-	title.textContent = AppState.sets[key].title;
-	title.ondblclick = () => openEditor(key);
-
-	tab.onclick = () => {
-	AppState.active = key;
-	saveStorage({ activeSet: key });
-	renderTabs();
-	renderButtons();
-	};
-
-	// 編集ボタン（画像）
-	const editBtn = document.createElement("button");
-	editBtn.textContent = "✏️";
-	editBtn.className = "edit-tab-btn"; // CSSクラス
-
-	// ツールチップ用 span を追加
-	const tooltip = document.createElement("span");
-	tooltip.className = "tooltip-text";
-
-	editBtn.onclick = e => {
-		e.stopPropagation();
-		openEditor(key); 
-	};
-
-	editBtn.appendChild(tooltip);
-	tab.appendChild(title);
-	tab.appendChild(editBtn);
-	tabsEl.appendChild(tab);
-	// ------------------------
-	// ドラッグ & ドロップ処理
-	// ------------------------
-	tab.addEventListener("dragstart", e => {
-	e.dataTransfer.setData("text/plain", key);
-	tab.classList.add("dragging");
-	});
-
-	tab.addEventListener("dragend", e => {
-	tab.classList.remove("dragging");
-	});
-
-	tab.addEventListener("dragover", e => {
-	e.preventDefault();
-	});
-
-	tab.addEventListener("drop", e => {
-	e.preventDefault();
-	const draggedKey = e.dataTransfer.getData("text/plain");
-	if (draggedKey === key) return;
-
-	// AppState.sets の順序を入れ替え
-	const newSets = {};
-	const draggedSet = AppState.sets[draggedKey];
-	Object.keys(AppState.sets).forEach(k => {
-		if (k === key) {
-		newSets[draggedKey] = draggedSet;
-		}
-		if (k !== draggedKey) {
-		newSets[k] = AppState.sets[k];
-		}
-	});
-	AppState.sets = newSets;
-	saveStorage({ sets: AppState.sets });
-
-	renderTabs();
-	});
-});
-
-// タブ右に追加ボタンを設置
-const addBtn = document.createElement("button");
-addBtn.id = "addTabBtn";
-addBtn.textContent = "＋";
-addBtn.onclick = () => {
 	const keys = Object.keys(AppState.sets);
-	if (keys.length >= AppState.MAX_TABS) {
-	alert("タブは最大20つまでです");
-	return;
+
+	keys.forEach((key) => {
+		const tab = document.createElement("div");
+		tab.className = "tab";
+		tab.draggable = true;
+		if (key === AppState.active) tab.classList.add("active");
+
+		// タイトル
+		const title = document.createElement("span");
+		title.textContent = AppState.sets[key].title;
+		title.ondblclick = () => openEditor(key);
+
+		// タブクリック
+		tab.onclick = () => {
+		AppState.active = key;
+		saveStorage({ activeSet: key });
+		renderTabs();
+		renderButtons();
+		};
+
+		// 編集ボタン
+		const editBtn = document.createElement("button");
+		editBtn.className = "edit-tab-btn";
+		editBtn.textContent = "✏️";
+		editBtn.onclick = (e) => {
+		e.stopPropagation();
+		openEditor(key);
+		};
+
+		tab.appendChild(title);
+		tab.appendChild(editBtn);
+		tabsEl.appendChild(tab);
+
+		// -----------------------
+		// ドラッグ処理
+		// -----------------------
+		tab.addEventListener("dragstart", (e) => {
+		e.dataTransfer.setData("text/plain", key);
+		tab.classList.add("dragging");
+		});
+
+		tab.addEventListener("dragend", () => {
+		tab.classList.remove("dragging");
+		});
+
+		tab.addEventListener("dragover", (e) => {
+		e.preventDefault();
+		});
+
+		tab.addEventListener("drop", (e) => {
+		e.preventDefault();
+		const draggedKey = e.dataTransfer.getData("text/plain");
+		if (draggedKey === key) return;
+
+		reorderTabs(draggedKey, key);
+		saveStorage({ sets: AppState.sets });
+		renderTabs();
+		});
+	});
+
+	// ＋追加ボタン
+	const addBtn = document.createElement("button");
+	addBtn.id = "addTabBtn";
+	addBtn.textContent = "＋";
+	addBtn.onclick = createTabPrompt;
+	tabsEl.appendChild(addBtn);
+};
+
+// ============================
+// タブ並び替え（順序保持）
+// ============================
+function reorderTabs(fromKey, toKey) {
+	const keys = Object.keys(AppState.sets);
+	const fromIndex = keys.indexOf(fromKey);
+	const toIndex = keys.indexOf(toKey);
+	if (fromIndex < 0 || toIndex < 0) return;
+
+	keys.splice(toIndex, 0, keys.splice(fromIndex, 1)[0]);
+
+	const newSets = {};
+	keys.forEach(k => newSets[k] = AppState.sets[k]);
+	AppState.sets = newSets;
+}
+// ============================
+// タブ追加処理
+// ============================
+async function createTabPrompt() {
+	const input = prompt("新しいマイセット名を入力（例: CCA-1728 / cca1728）");
+	if (!input) return;
+
+	const raw = input.trim();
+	const upper = raw.toUpperCase();
+	const templates = window.DEFAULT_CONFIG.backlogTemplates;
+
+	let matchedTpl = null;
+	let issueNumber = null;
+	let normalizedKey = null;
+
+	// =========================
+	// 入力正規化（cca1728 → CCA-1728）
+	// =========================
+	const m = upper.match(/([A-Z_]+)-?(\d+)/);
+	if (m) {
+		normalizedKey = `${m[1]}-${m[2]}`;
+		issueNumber = m[2];
 	}
-	const key = "set" + Date.now();
-	AppState.sets[key] = { title: "New Tab", buttons: [] };
-	AppState.active = key;
-	saveStorage({ sets: AppState.sets, activeSet: key });
+
+	// =========================
+	// テンプレ判定
+	// =========================
+	if (normalizedKey) {
+		for (const tpl of Object.values(templates)) {
+		const prefix = extractPrefix(tpl.pattern);
+		if (prefix && normalizedKey.startsWith(prefix)) {
+			matchedTpl = tpl;
+			break;
+		}
+		}
+	}
+
+	// =========================
+	// 通常タブ
+	// =========================
+	if (!matchedTpl || !normalizedKey) {
+		AppState.sets[raw] = { title: raw, buttons: [] };
+		AppState.active = raw;
+		saveStorage({ sets: AppState.sets, activeSet: raw });
+		renderTabs();
+		return;
+	}
+
+  // =========================
+  // Backlog案件モード
+  // =========================
+	const issueKey = normalizedKey;
+	const issueData = await fetchBacklogIssue(issueKey);
+	const buttons = [];
+
+	// Backlog本体ボタン
+	buttons.push({
+		label: issueKey + (issueData?.summary ? " " + issueData.summary : ""),
+		url: matchedTpl.pattern.replace(/X+/g, issueNumber),
+		color: matchedTpl.color || "#2B8269",
+	});
+
+	// Markdown解析
+	const extracted = parseIssueMarkdown(issueData?.description ?? "");
+
+	// テンプレ自動ボタン
+	window.DEFAULT_CONFIG.autoMysetTemplate.baseButtons.forEach(b => {
+		buttons.push({
+		label: b.label,
+		url: extracted[b.label] || "",
+		color: b.color,
+		});
+	});
+
+	AppState.sets[issueKey] = {
+		title: issueKey,
+		buttons,
+	};
+
+	AppState.active = issueKey;
+	saveStorage({ sets: AppState.sets, activeSet: issueKey });
 	renderTabs();
-	renderButtons();
-};
-tabsEl.appendChild(addBtn);
-};
+	}
+
+// ============================
+// Backlog API
+// ============================
+async function fetchBacklogIssue(issueKey) {
+	try {
+		const cfg = window.DEFAULT_CONFIG.backlogApi;
+		if (!cfg?.apiKey) return null;
+
+		const url = `https://${cfg.space}.backlog.com/api/v2/issues/${issueKey}?apiKey=${cfg.apiKey}`;
+		const res = await fetch(url);
+		if (!res.ok) return null;
+		return await res.json();
+	} catch (e) {
+		console.error("Backlog fetch error", e);
+		return null;
+	}
+}
+
+// ============================
+// prefix 抽出
+// ============================
+function extractPrefix(pattern) {
+	const cfg = window.DEFAULT_CONFIG;
+	if (!cfg?.tabPrefixRegex || !cfg?.tabPrefixPathHint) return null;
+
+	const idx = pattern.indexOf(cfg.tabPrefixPathHint);
+	if (idx === -1) return null;
+
+	const sub = pattern.slice(idx);
+	const regex = new RegExp(cfg.tabPrefixRegex);
+	const m = sub.match(regex);
+	return m ? m[1] : null;
+}
+
+// ============================
+// マークダウンから URL抽出
+// ============================
+
+function parseIssueMarkdown(md) {
+	if (!md) return {};
+	const map = {};
+	const rules = window.DEFAULT_CONFIG.markdownRules;
+
+	const lines = md.split("\n");
+
+	for (let i = 0; i < lines.length; i++) {
+		const line = lines[i].trim();
+
+		for (const r of rules) {
+		if (!r.match.test(line)) continue;
+
+		// 次の行からURL探す
+		for (let j = i + 1; j < i + 5; j++) {
+			const m = lines[j]?.match(/https?:\/\/[^\s)]+/);
+			if (m) {
+			map[r.label] = m[0];
+			break;
+			}
+		}
+		}
+	}
+
+	return map;
+}
