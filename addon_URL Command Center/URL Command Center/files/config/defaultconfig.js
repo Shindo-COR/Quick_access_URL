@@ -19,6 +19,14 @@ sets: {
 	]
 	},
 	myset1: {
+	title: "バックログまとめ",
+	buttons: [
+		{ label: "ココアバックログ", url: "https://cor.backlog.com/view/CCA-XXXX", color: "#FF8DAB" },
+		{ label: "リラクジョブバックログ", url: "https://cor.backlog.com/view/CCA_MENESTH-XXX", color: "#61D4CA" },
+		{ label: "内部課題バックログ", url: "https://cor.backlog.com/view/CCABUG-XXX", color: "#2B8269" },
+	] 
+	},
+	myset2: {
 	title: "CCA-XXXX",
 	buttons: [
 		{ label: "バックログ", url: "https://cor.backlog.com/view/CCA-XXXX", color: "#2B8269" },
@@ -29,7 +37,7 @@ sets: {
 		{ label: "実装したページ", url: "", color: "#ed8585" },
 	] 
 	},
-	myset2: {
+	myset3: {
 	title: "プルリクとデプロイ",
 	buttons: [
 		{ label: "プルリク作成", url: "https://ap-northeast-1.console.aws.amazon.com/codesuite/codecommit/repositories/eki-web/pull-requests/new/release/.../?region=ap-northeast-1", color: "#FA6F01" },
@@ -38,7 +46,7 @@ sets: {
 		{ label: "リポジトリ情報", url: "https://wiki.core-tech.jp/user/h.suzuki/%E3%82%A2%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%AB2%E8%AA%B2%E5%AA%92%E4%BD%93_%E9%96%8B%E7%99%BA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E9%96%A2%E4%BF%82%E6%80%A7%E3%81%BE%E3%81%A8%E3%82%81", color: "#607D8B" },
 	] 
 	},
-	myset3: {
+	myset4: {
 	title: "業務・勤怠",
 	buttons: [
 		{ label: "ココア業務ナビ！", url: "https://sites.google.com/core-tech.jp/cocoa-develop/top", color: "#FF8DAB" },
@@ -48,7 +56,7 @@ sets: {
 		{ label: "グループセッション", url: "https://unification5.core-tech.jp/gsession/common/cmn002.do", color: "#739DC4" },
 	] 
 	},
-	myset4: {
+	myset5: {
 	title: "マイセット１",
 	buttons: [
 		{ label: "ボタンを入力", url: "www.example.com", color: "#FF8DAB" },
