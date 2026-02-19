@@ -1,13 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "Quick Access URL",
+  "name": "URL Command Center",
   "version": "3.0",
   "permissions": ["storage", "tabs", "sidePanel"],
   "side_panel": {
     "default_path": "files/index.html"
   },
   "action": {
-    "default_title": "Quick Access URL"
+    "default_title": "URL Command Center"
   },
   "icons": {
     "128": "img/icon.png"

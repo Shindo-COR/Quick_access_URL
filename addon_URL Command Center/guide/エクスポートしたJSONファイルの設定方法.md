@@ -1,7 +1,7 @@
-# quick_access_URL エクスポートしたJSONファイルの編集方法
+# URL Command Center エクスポートしたJSONファイルの編集方法
 
 ## 0. 概要
-Quick Access URL 拡張機能では、
+URL Command Center 拡張機能では、
 設定内容（タブ・ボタン・UI設定）を JSONファイルとしてエクスポート / インポート できます。
 
 このドキュメントでは、
