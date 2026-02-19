@@ -74,6 +74,25 @@ settings: {
 	darkRainbowBg: false,
 	rainbowHover: false
 },
+backlogTemplates: {
+  normal: {
+    label: "ココア",
+    pattern: "https://cor.backlog.com/view/CCA-XXXX",
+    color: "#FF8DAB"
+  },
+  menesth: {
+    label: "リラクジョブ",
+    pattern: "https://cor.backlog.com/view/CCA_MENESTH-XXX",
+    color: "#61D4CA"
+  },
+  bug: {
+    label: "内部課題",
+    pattern: "https://cor.backlog.com/view/CCABUG-XXX",
+    color: "#f17074"
+  }
+},
+
+
 
 activeSet: "default"
 };

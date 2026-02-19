@@ -189,3 +189,52 @@
 .setting-actions button:hover {
 	background: #eaeaea;
 }
+
+
+/* バックログ自動入力UI */
+.backlog-generator {
+  border: 1px solid #ddd;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background: #f8f8f8;
+}
+
+.backlog-title {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.backlog-template-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.backlog-template-btn {
+  padding: 4px 6px;
+  font-size: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+}
+
+.backlog-template-btn.active {
+  background: #222;
+  color: #fff;
+}
+
+.backlog-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+  margin-bottom: 4px;
+}
+
+.backlog-preview {
+  font-size: 12px;
+  color: #666;
+  word-break: break-all;
+}
