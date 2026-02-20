@@ -44,14 +44,18 @@ sets: {
 		{ label: "Jenkins ココア", url: "https://jenkins.core-tech.jp/view/%E3%82%B3%E3%82%B3%E3%82%A2/job/imc_dev_cocoa_job/build?delay=0sec", color: "#FF8DAB" },
 		{ label: "Jenkins リラクジョブ", url: "https://jenkins.core-tech.jp/job/imc_dev_menesth_job_jp/", color: "#61D4CA" },
 		{ label: "リポジトリ情報", url: "https://wiki.core-tech.jp/user/h.suzuki/%E3%82%A2%E3%82%B8%E3%83%A3%E3%82%A4%E3%83%AB2%E8%AA%B2%E5%AA%92%E4%BD%93_%E9%96%8B%E7%99%BA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E9%96%A2%E4%BF%82%E6%80%A7%E3%81%BE%E3%81%A8%E3%82%81", color: "#607D8B" },
+		{ label: "nextcloud", url: "https://nextcloud.core-tech.jp/apps/files/?dir=/&fileid=1191346", color: "#CF8331" },
 	] 
 	},
 	myset4: {
 	title: "業務・勤怠",
 	buttons: [
+		{ label: "チャットワーク", url: "https://www.chatwork.com/#!rid358914175", color: "#F03748" },
 		{ label: "ココア業務ナビ！", url: "https://sites.google.com/core-tech.jp/cocoa-develop/top", color: "#FF8DAB" },
+		{ label: "駅メモ", url: "https://sites.google.com/core-tech.jp/ekichika-develop/", color: "#8EF2CD" },
+		{ label: "内線・座席・組織図・ブログ投稿 ", url: "https://wiki.core-tech.jp/%E7%B7%8F%E5%8B%99/%E5%86%85%E7%B7%9A%E3%83%BB%E5%BA%A7%E5%B8%AD%E3%83%BB%E7%B5%84%E7%B9%94%E5%9B%B3%E3%83%BB%E3%83%96%E3%83%AD%E3%82%B0%E6%8A%95%E7%A8%BF", color: "#3794FE" },
 		{ label: "勤怠関連システム", url: "https://attendance.core-tech.jp/", color: "#FFA633" },
-		{ label: "ジョブカン勤怠申請", url: "https://id.jobcan.jp/users/sign_in", color: "#61D4CA" },
+		{ label: "ジョブカン勤怠申請", url: "https://id.jobcan.jp/users/sign_in", color: "#3794FE" },
 		{ label: "ジョブカン打刻", url: "https://ssl.jobcan.jp/login/mb-employee-global?redirect_to=%2Fm%2Findex%2Findex", color: "#3794FE" },
 		{ label: "グループセッション", url: "https://unification5.core-tech.jp/gsession/common/cmn002.do", color: "#739DC4" },
 	] 

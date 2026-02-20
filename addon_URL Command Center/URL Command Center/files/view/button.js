@@ -66,7 +66,7 @@ window.renderButtons = function () {
 	});
 
 	// =====================
-	// 上下配置の切り替え（本命修正箇所）
+	// 上下配置の切り替え
 	// =====================
 	const buttonsOnTop = AppState.settings?.buttonsOnTop ?? true;
 
