@@ -100,7 +100,7 @@ backlogTemplates: {
 },
 backlogApi: {
 	space: "cor",
-	apiKey: "6TQFGp1OiSBm1xeL1nvTPOGOFZ6VLU3Q9yCmgZaeAYSX2Pz69I6QMHpxC54mj1AQ"
+	apiKey: ""
 },
 autoMysetTemplate: {
 	baseButtons: [
@@ -123,13 +123,11 @@ markdownLinkRules: [
   { label: "内部QA", matchTitle: /内部.*QA/i, priority: 100 },
   { label: "内部修正シート", matchTitle: /内部.*修正/i, priority: 100 },
 
-  // 外部 fallback
   { label: "外部QA", matchTitle: /QA/i, exclude: /内部/i, priority: 10 },
   { label: "外部修正シート", matchTitle: /修正/i, exclude: /内部/i, priority: 10 },
 
-  // その他
   { label: "仕様書", matchTitle: /仕様/i },
-  { label: "XD", matchTitle: /デザイン|XD|Figma/i, pickUrl: /xd|figma/i },
+  { label: "XD", matchTitle: /デザイン|XD/i, pickUrl: /xd/i },
 ],
 
 activeSet: "default"
