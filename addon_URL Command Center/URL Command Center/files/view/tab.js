@@ -105,25 +105,24 @@ async function createTabPrompt() {
 	let normalizedKey = null;
 
 	// =========================
-	// 入力正規化（cca1728 → CCA-1728）
+	// 入力正規化
 	// =========================
-	const m = upper.match(/([A-Z_]+)-?(\d+)/);
+	const m = upper.match(/^([A-Z_]+)-(\d+)$/);
 	if (m) {
-		normalizedKey = `${m[1]}-${m[2]}`;
-		issueNumber = m[2];
+	normalizedKey = `${m[1]}-${m[2]}`;
+	issueNumber = m[2];
 	}
 
 	// =========================
-	// テンプレ判定
+	// テンプレ判定（labelPrefix 優先）
 	// =========================
 	if (normalizedKey) {
-		for (const tpl of Object.values(templates)) {
-		const prefix = extractPrefix(tpl.pattern);
-		if (prefix && normalizedKey.startsWith(prefix)) {
-			matchedTpl = tpl;
-			break;
+	for (const tpl of Object.values(templates)) {
+		if (normalizedKey.startsWith(tpl.labelPrefix)) {
+		matchedTpl = tpl;
+		break;
 		}
-		}
+	}
 	}
 
 	// =========================
@@ -171,7 +170,7 @@ async function createTabPrompt() {
 	AppState.active = issueKey;
 	saveStorage({ sets: AppState.sets, activeSet: issueKey });
 	renderTabs();
-	}
+}
 
 // ============================
 // Backlog API
