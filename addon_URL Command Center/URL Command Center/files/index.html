@@ -45,6 +45,16 @@
 	</div>
 </div>
 
+<!-- メモ帳 -->
+<div id="memoPad">
+<div class="memo-header">
+	メモ帳
+	<button id="copyMemoBtn">コピー(Ctrl+Cでも可)</button>
+	<button id="clearMemoBtn">クリア</button>
+</div>
+<textarea id="memoTextarea" placeholder="自由メモ（自動保存）"></textarea>
+</div>
+
 </div>
 </div>
 <script src="config/defaultconfig.js"></script>
@@ -56,6 +66,7 @@
 <script src="view/button.js"></script>
 <script src="view/editor.js"></script>
 <script src="view/tab.js"></script>
+<script src="view/memo.js"></script>
 <script src="view/sidebar.js"></script>
 <script src="service/autosave.js"></script>
 <script src="controller/main.js"></script>

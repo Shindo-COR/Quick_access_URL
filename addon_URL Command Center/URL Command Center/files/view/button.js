@@ -152,6 +152,19 @@ if (!body) return;
 const bgColor = AppState.settings.darkBgColor || "#7f7f93";
 const textColor = AppState.settings.darkTextColor || "#ffffff";
 const rainbow = AppState.settings.darkRainbowBg || false;
+//メモ帳にも追加
+const memoPad = document.getElementById("memoPad");
+const memoTextarea = document.getElementById("memoTextarea");
+if (enable) {
+  memoPad.style.background = "#2c2c34";
+  memoTextarea.style.background = "#1f1f25";
+  memoTextarea.style.color = "#fff";
+} else {
+  memoPad.style.background = "#f8f9fb";
+  memoTextarea.style.background = "#fff";
+  memoTextarea.style.color = "#000";
+}
+//メモ帳にも追加End
 
 if (enable) {
 	if (rainbow) {
