@@ -122,7 +122,7 @@
 /* 削除ボタン */
 .main-btn-delete {
 	margin-left: 8px;
-	font-size: 12px;
+	/* font-size: 12px; */
 	color: rgba(255,255,255,0.7);
 	cursor: pointer;
 	padding: 2px 4px;
