@@ -26,13 +26,31 @@ window.renderTabs = function () {
 		renderButtons();
 		};
 
-		// 編集ボタン
+		// 削除ボタン
 		const editBtn = document.createElement("button");
-		editBtn.className = "edit-tab-btn";
-		editBtn.textContent = "✏️";
+		editBtn.className = "edit-tab-btn"; // レイアウト維持のため class は据え置き
+		editBtn.textContent = "✖"; // 見た目は削除アイコンに変更
+
 		editBtn.onclick = (e) => {
 		e.stopPropagation();
-		openEditor(key);
+
+		const setName = AppState.sets[key]?.title || key;
+		if (!confirm(`マイセット「${setName}」を削除しますか？\nこの操作は元に戻せません。`)) {
+			return;
+		}
+
+		// 削除処理
+		delete AppState.sets[key];
+
+		// アクティブタブが削除された場合のフォールバック
+		if (AppState.active === key) {
+			const remainKeys = Object.keys(AppState.sets);
+			AppState.active = remainKeys[0] || null;
+		}
+
+		saveStorage({ sets: AppState.sets, activeSet: AppState.active });
+		renderTabs();
+		renderButtons();
 		};
 
 		tab.appendChild(title);

@@ -111,7 +111,7 @@
    Tooltip for Edit
 --------------------- */
 .edit-tab-btn::after {
-	content: "編集";
+	content: "削除";
 	position: absolute;
 	bottom: -24px;
 	left: 50%;
