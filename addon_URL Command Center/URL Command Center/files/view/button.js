@@ -50,30 +50,52 @@ window.renderButtons = function () {
 
 	list.forEach((b, i) => {
 		const btn = document.createElement("button");
-		btn.textContent = b.label;
+		btn.className = "main-url-btn";
 		btn.dataset.index = i;
 		btn.dataset.color = b.color || "#607d8b";
 		btn.dataset.url = b.url || "";
 		btn.style.background = btn.dataset.color;
 		btn.style.cursor = "grab";
 
+		// ラベル用 span
+		const labelSpan = document.createElement("span");
+		labelSpan.textContent = b.label;
+
+		// 削除ボタン
+		const deleteBtn = document.createElement("span");
+		deleteBtn.textContent = "✖";
+		deleteBtn.className = "main-btn-delete";
+
+		// 削除処理（確認なし）
+		deleteBtn.onclick = (e) => {
+			e.stopPropagation(); // URL開かない
+			AppState.sets[AppState.active].buttons.splice(i, 1);
+			saveStorage({ sets: AppState.sets });
+			renderButtons();
+		};
+
+		// URLクリック
 		btn.onclick = () => b.url && chrome.tabs.create({ url: b.url });
 
-		btn.addEventListener("mouseenter", (e) => {
-		tooltip.textContent = btn.dataset.url;
-		tooltip.style.opacity = 1;
-		tooltip.style.left = e.pageX + 10 + "px";
-		tooltip.style.top = e.pageY + 10 + "px";
-		});
+		// Tooltip
+		btn.onmouseenter = (e) => {
+			tooltip.textContent = btn.dataset.url;
+			tooltip.style.opacity = 1;
+			tooltip.style.left = e.pageX + 10 + "px";
+			tooltip.style.top = e.pageY + 10 + "px";
+		};
+		btn.onmousemove = (e) => {
+			tooltip.style.left = e.pageX + 10 + "px";
+			tooltip.style.top = e.pageY + 10 + "px";
+		};
+		btn.onmouseleave = () => {
+			tooltip.style.opacity = 0;
+			btn.style.background = btn.dataset.color;
+		};
 
-		btn.addEventListener("mousemove", (e) => {
-		tooltip.style.left = e.pageX + 10 + "px";
-		tooltip.style.top = e.pageY + 10 + "px";
-		});
-
-		btn.addEventListener("mouseleave", () => {
-		tooltip.style.opacity = 0;
-		});
+		// 子要素追加
+		btn.appendChild(labelSpan);
+		btn.appendChild(deleteBtn);
 
 		mainButtonsFragment.appendChild(btn);
 	});
