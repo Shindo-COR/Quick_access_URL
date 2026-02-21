@@ -196,7 +196,11 @@ function applyRainbowHover(enable) {
 	if (!buttonsEl) return;
 
 	buttonsEl.querySelectorAll("button").forEach((btn) => {
-		if (btn.classList.contains("close-extension-btn") || btn.classList.contains("setting-btn")) return;
+		if (
+			btn.classList.contains("close-extension-btn") ||
+			btn.classList.contains("setting-btn") ||
+			btn.classList.contains("edit-set-btn")
+		) return;
 
 		//  まず必ずイベント解除
 		btn.onmouseenter = null;
