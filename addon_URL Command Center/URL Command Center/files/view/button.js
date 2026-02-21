@@ -9,33 +9,29 @@ window.renderButtons = function () {
 	buttonsEl.innerHTML = "";
 
 	// =====================
-	// 固定ボタン生成
+	// 固定ボタン
 	// =====================
 	const closeExtBtn = document.createElement("button");
 	closeExtBtn.textContent = "✖　終了する";
 	closeExtBtn.className = "close-extension-btn";
 	closeExtBtn.onclick = () => window.close();
 
-	// ：マイセット編集ボタン
 	const editSetBtn = document.createElement("button");
-	editSetBtn.textContent = "⇅　 マイセットの編集";
+	editSetBtn.textContent = "⇅　マイセット編集";
 	editSetBtn.className = "edit-set-btn";
 	editSetBtn.onclick = () => {
 		const key = AppState.active;
-		if (!key) return;
-		if (typeof window.openEditor === "function") {
-			window.openEditor(key);
-		}
+		if (key && window.openEditor) openEditor(key);
 	};
 
 	const settingBtn = document.createElement("button");
 	settingBtn.textContent = "⚙　全体設定";
 	settingBtn.className = "setting-btn";
 	settingBtn.onclick = () => {
-		const settingsPanel = document.getElementById("settingsPanel");
-		if (settingsPanel) {
-		settingsPanel.classList.toggle("open");
-		if (typeof window.initSettings === "function") window.initSettings();
+		const panel = document.getElementById("settingsPanel");
+		if (panel) {
+			panel.classList.toggle("open");
+			window.initSettings?.();
 		}
 	};
 
@@ -43,105 +39,89 @@ window.renderButtons = function () {
 	hr.style.margin = "6px 0";
 
 	// =====================
-	// メインボタン群 Fragment
+	// メインボタン専用Container
 	// =====================
-	const mainButtonsFragment = document.createDocumentFragment();
+	const mainContainer = document.createElement("div");
+	mainContainer.id = "mainButtonsContainer";
+
 	const list = AppState.sets[AppState.active]?.buttons || [];
 
-	list.forEach((b, i) => {
+	list.forEach((b) => {
 		const btn = document.createElement("button");
 		btn.className = "main-url-btn";
-		btn.dataset.index = i;
 		btn.dataset.color = b.color || "#607d8b";
 		btn.dataset.url = b.url || "";
 		btn.style.background = btn.dataset.color;
 		btn.style.cursor = "grab";
 
-		// ラベル用 span
+		// label
 		const labelSpan = document.createElement("span");
 		labelSpan.textContent = b.label;
 
-		// 削除ボタン
+		// delete
 		const deleteBtn = document.createElement("span");
 		deleteBtn.textContent = "✖";
 		deleteBtn.className = "main-btn-delete";
 
-		// 削除処理（確認なし）
 		deleteBtn.onclick = (e) => {
-			e.stopPropagation(); // URL開かない
-			AppState.sets[AppState.active].buttons.splice(i, 1);
+			e.stopPropagation();
+			const index = Array.from(mainContainer.children).indexOf(btn);
+			AppState.sets[AppState.active].buttons.splice(index, 1);
 			saveStorage({ sets: AppState.sets });
 			renderButtons();
 		};
 
-		// URLクリック
+		// click URL
 		btn.onclick = () => b.url && chrome.tabs.create({ url: b.url });
 
 		// Tooltip
-		btn.onmouseenter = (e) => {
+		btn.addEventListener("mouseenter", (e) => {
 			tooltip.textContent = btn.dataset.url;
 			tooltip.style.opacity = 1;
 			tooltip.style.left = e.pageX + 10 + "px";
 			tooltip.style.top = e.pageY + 10 + "px";
-		};
-		btn.onmousemove = (e) => {
+			});
+
+		btn.addEventListener("mousemove", (e) => {
 			tooltip.style.left = e.pageX + 10 + "px";
 			tooltip.style.top = e.pageY + 10 + "px";
-		};
-		btn.onmouseleave = () => {
-			tooltip.style.opacity = 0;
-			btn.style.background = btn.dataset.color;
-		};
+		});
 
-		// 子要素追加
+		btn.addEventListener("mouseleave", () => {
+			tooltip.style.opacity = 0;
+		});
+
 		btn.appendChild(labelSpan);
 		btn.appendChild(deleteBtn);
-
-		mainButtonsFragment.appendChild(btn);
+		mainContainer.appendChild(btn);
 	});
 
 	// =====================
-	// 上下配置の切り替え
+	// 上下配置切替
 	// =====================
 	const buttonsOnTop = AppState.settings?.buttonsOnTop ?? true;
 
 	if (buttonsOnTop) {
-		// 上に配置
-		buttonsEl.appendChild(settingBtn);
-		buttonsEl.appendChild(closeExtBtn);
-		buttonsEl.appendChild(editSetBtn); 
-		buttonsEl.appendChild(hr);
-		buttonsEl.appendChild(mainButtonsFragment);
+		buttonsEl.append(settingBtn, closeExtBtn, editSetBtn, hr, mainContainer);
 	} else {
-		// 下に配置（メインボタンの下）
-		buttonsEl.appendChild(mainButtonsFragment);
-		buttonsEl.appendChild(hr);
-		buttonsEl.appendChild(editSetBtn); 
-		buttonsEl.appendChild(settingBtn);
-		buttonsEl.appendChild(closeExtBtn);
+		buttonsEl.append(mainContainer, hr, editSetBtn, settingBtn, closeExtBtn);
 	}
 
 	// =====================
-	// SortableJS（メインボタンのみ）
+	// Sortable（メインボタン専用）
 	// =====================
 	if (typeof Sortable !== "undefined") {
-		if (buttonsEl._sortable) buttonsEl._sortable.destroy();
+		if (mainContainer._sortable) mainContainer._sortable.destroy();
 
-		const offset = buttonsOnTop ? 3 : 0; // 上に固定がある場合だけズレる
-
-		buttonsEl._sortable = Sortable.create(buttonsEl, {
+		mainContainer._sortable = Sortable.create(mainContainer, {
 			animation: 150,
 			ghostClass: "dragging",
-			filter: ".close-extension-btn, .setting-btn, hr",
-			onMove: (evt) =>
-				!evt.related.classList.contains("close-extension-btn") &&
-				!evt.related.classList.contains("setting-btn") &&
-				evt.related.tagName !== "HR",
+			draggable: ".main-url-btn",
 
 			onEnd: (evt) => {
 				const buttons = AppState.sets[AppState.active].buttons;
-				const movedItem = buttons.splice(evt.oldIndex - offset, 1)[0];
-				buttons.splice(evt.newIndex - offset, 0, movedItem);
+				const moved = buttons.splice(evt.oldIndex, 1)[0];
+				buttons.splice(evt.newIndex, 0, moved);
 
 				saveStorage({ sets: AppState.sets });
 				renderButtons();
@@ -149,14 +129,15 @@ window.renderButtons = function () {
 		});
 	}
 
-	// 設定パネル閉じる
+	// =====================
+	// 設定閉じる
+	// =====================
 	const closeSettingBtn = document.getElementById("closeSettingsBtn");
 	if (closeSettingBtn) {
-		closeSettingBtn.onclick = () => {
-		const panel = document.getElementById("settingsPanel");
-		if (panel) panel.classList.remove("open");
-		};
+		closeSettingBtn.onclick = () =>
+			document.getElementById("settingsPanel")?.classList.remove("open");
 	}
+
 	applyDarkMode(AppState.settings?.darkMode ?? false);
 	applyRainbowHover(AppState.settings?.rainbowHover ?? false);
 };
