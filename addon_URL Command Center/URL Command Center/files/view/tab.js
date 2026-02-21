@@ -1,4 +1,3 @@
-// ============================
 // タブ描画
 // ============================
 window.renderTabs = function () {
@@ -15,42 +14,39 @@ window.renderTabs = function () {
 
 		// タイトル
 		const title = document.createElement("span");
+		title.className = "tab-title";
 		title.textContent = AppState.sets[key].title;
 		title.ondblclick = () => openEditor(key);
 
 		// タブクリック
 		tab.onclick = () => {
-		AppState.active = key;
-		saveStorage({ activeSet: key });
-		renderTabs();
-		renderButtons();
+			AppState.active = key;
+			saveStorage({ activeSet: key });
+			renderTabs();
+			renderButtons();
 		};
 
 		// 削除ボタン
 		const editBtn = document.createElement("button");
-		editBtn.className = "edit-tab-btn"; // レイアウト維持のため class は据え置き
-		editBtn.textContent = "✖"; // 見た目は削除アイコンに変更
+		editBtn.className = "edit-tab-btn";
+		editBtn.textContent = "✖";
 
 		editBtn.onclick = (e) => {
-		e.stopPropagation();
+			e.stopPropagation();
 
-		const setName = AppState.sets[key]?.title || key;
-		if (!confirm(`マイセット「${setName}」を削除しますか？\nこの操作は元に戻せません。`)) {
-			return;
-		}
+			const setName = AppState.sets[key]?.title || key;
+			if (!confirm(`マイセット「${setName}」を削除しますか？\nこの操作は元に戻せません。`)) return;
 
-		// 削除処理
-		delete AppState.sets[key];
+			delete AppState.sets[key];
 
-		// アクティブタブが削除された場合のフォールバック
-		if (AppState.active === key) {
-			const remainKeys = Object.keys(AppState.sets);
-			AppState.active = remainKeys[0] || null;
-		}
+			if (AppState.active === key) {
+				const remainKeys = Object.keys(AppState.sets);
+				AppState.active = remainKeys[0] || null;
+			}
 
-		saveStorage({ sets: AppState.sets, activeSet: AppState.active });
-		renderTabs();
-		renderButtons();
+			saveStorage({ sets: AppState.sets, activeSet: AppState.active });
+			renderTabs();
+			renderButtons();
 		};
 
 		tab.appendChild(title);
@@ -58,29 +54,40 @@ window.renderTabs = function () {
 		tabsEl.appendChild(tab);
 
 		// -----------------------
+		// tooltip（省略時のみ）
+		// -----------------------
+		requestAnimationFrame(() => {
+			if (title.scrollWidth > title.clientWidth) {
+				tab.title = AppState.sets[key].title;
+			} else {
+				tab.removeAttribute("title");
+			}
+		});
+
+		// -----------------------
 		// ドラッグ処理
 		// -----------------------
 		tab.addEventListener("dragstart", (e) => {
-		e.dataTransfer.setData("text/plain", key);
-		tab.classList.add("dragging");
+			e.dataTransfer.setData("text/plain", key);
+			tab.classList.add("dragging");
 		});
 
 		tab.addEventListener("dragend", () => {
-		tab.classList.remove("dragging");
+			tab.classList.remove("dragging");
 		});
 
 		tab.addEventListener("dragover", (e) => {
-		e.preventDefault();
+			e.preventDefault();
 		});
 
 		tab.addEventListener("drop", (e) => {
-		e.preventDefault();
-		const draggedKey = e.dataTransfer.getData("text/plain");
-		if (draggedKey === key) return;
+			e.preventDefault();
+			const draggedKey = e.dataTransfer.getData("text/plain");
+			if (draggedKey === key) return;
 
-		reorderTabs(draggedKey, key);
-		saveStorage({ sets: AppState.sets });
-		renderTabs();
+			reorderTabs(draggedKey, key);
+			saveStorage({ sets: AppState.sets });
+			renderTabs();
 		});
 	});
 
