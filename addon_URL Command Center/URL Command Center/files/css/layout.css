@@ -2,10 +2,26 @@
    Layout: Main Container
 ===================== */
 
-#mainContainer {
+/* #mainContainer {
 	display: flex;
 	gap: 8px;
 	height: 100%;
+} */
+
+
+
+#mainContainer {
+	display: flex;
+	flex-direction: column; /* ← 横並びから縦レイアウト制御 */
+	height: 100%;
+	gap: 6px;
+}
+
+#topArea {
+	flex: 1; /* ここがスクロール領域 */
+	display: flex;
+	gap: 8px;
+	min-height: 0; /* ← 超重要: flex scroll fix */
 }
 
 /* 左カラム（タブ列） */

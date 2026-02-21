@@ -5,57 +5,53 @@
 	<link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-
 <!-- メインコンテナ: 左にタブ、右にボタン領域 -->
 <div id="mainContainer">
+	<div id="topArea">
+		<!-- サイドバー -->
+		<aside id="sidebar" class="sidebar collapsed">
+			<div class="sidebar-header">
+				<span class="sidebar-title">マイセット</span>
+				<button id="sidebarToggle">≪</button>
+			</div>
 
-	<!-- サイドバー -->
-	<aside id="sidebar" class="sidebar collapsed">
-		<div class="sidebar-header">
-			<span class="sidebar-title">マイセット</span>
-			<button id="sidebarToggle">≪</button>
+			<div id="tabs" class="tabs"></div>
+		</aside>
+		<!-- メインボタン領域 -->
+		<div id="buttons"></div>
+	</div>
+		<!-- メモ帳 -->
+		<div id="memoPad">
+			<div class="memo-header">
+				メモ帳
+				<button id="copyMemoBtn">コピー(Ctrl+Cでも可)</button>
+				<button id="clearMemoBtn">クリア</button>
+			</div>
+			<textarea id="memoTextarea" placeholder="自由メモ（自動保存）"></textarea>
 		</div>
-
-		<div id="tabs" class="tabs"></div>
-	</aside>
-
-	<!-- メインボタン領域 -->
-	<div id="buttons"></div>
-
 </div>
 
-
-<!-- エディタパネル -->
-<div id="editorPanel" class="editor-panel">
-	<div class="editor-header">
-		<span>編集画面</span>
-		<button id="close-btn" class="close-btn">保存して閉じる</button>
+	<!-- エディタパネル -->
+	<div id="editorPanel" class="editor-panel">
+		<div class="editor-header">
+			<span>編集画面</span>
+			<button id="close-btn" class="close-btn">保存して閉じる</button>
+		</div>
+		<div id="editorContent"></div>
 	</div>
-	<div id="editorContent"></div>
-</div>
 
-<!-- 設定パネル -->
-<div id="settingsPanel" class="editor-panel setting-panel">
-	<div class="editor-header">
-		<span>設定</span>
-		<button id="closeSettingsBtn" class="close-btn">閉じる</button>
+	<!-- 設定パネル -->
+	<div id="settingsPanel" class="editor-panel setting-panel">
+		<div class="editor-header">
+			<span>設定</span>
+			<button id="closeSettingsBtn" class="close-btn">閉じる</button>
+		</div>
+		<div id="settingContent">
+		<!-- initSettings() で項目が描画されます -->
+		</div>
 	</div>
-	<div id="settingContent">
-	<!-- initSettings() で項目が描画されます -->
+
 	</div>
-</div>
-
-<!-- メモ帳 -->
-<div id="memoPad">
-<div class="memo-header">
-	メモ帳
-	<button id="copyMemoBtn">コピー(Ctrl+Cでも可)</button>
-	<button id="clearMemoBtn">クリア</button>
-</div>
-<textarea id="memoTextarea" placeholder="自由メモ（自動保存）"></textarea>
-</div>
-
-</div>
 </div>
 <script src="config/defaultconfig.js"></script>
 <script src="model/state.js"></script>

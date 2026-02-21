@@ -1,25 +1,27 @@
 /* Memo Pad 固定 */
 #memoPad {
-  border-top: 2px solid #ddd;
-  padding: 6px;
-  background: #f8f9fb;
+	flex-shrink: 0; /* 縮まない */
+	height: 150px; /* 固定 */
+	border-top: 2px solid #ddd;
+	padding: 6px;
+	background: #f8f9fb;
 }
 
 .memo-header {
-  display: flex;
-  justify-content: space-between;
-  font-weight: bold;
-  font-size: 12px;
-  margin-bottom: 4px;
+	display: flex;
+	justify-content: space-between;
+	font-weight: bold;
+	font-size: 12px;
+	margin-bottom: 4px;
 }
 
 #memoTextarea {
-  width: 100%;
-  height: 80px;
-  resize: none;
-  padding: 6px;
-  font-size: 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-family: monospace;
+	width: 100%;
+	height: 105px;
+	resize: none;
+	padding: 6px;
+	font-size: 14px;
+	border-radius: 6px;
+	border: 1px solid #ccc;
+	font-family: monospace;
 }

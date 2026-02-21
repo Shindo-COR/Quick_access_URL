@@ -9,6 +9,13 @@
 @import './memo.css';
 @import './settings.css';
 
+
+html, body {
+	/* height: 77%; */
+	height: 100%;
+	overflow: hidden; /* ← これが最重要 */
+}
+
 body {
 	font-family: system-ui, -apple-system, sans-serif;
 	margin: 0;
