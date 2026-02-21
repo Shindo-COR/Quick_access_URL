@@ -95,3 +95,15 @@
 	100% { background-position: 100% 0%; }
 }
 
+/* =====================
+   このマイセットを編集するボタン
+===================== */
+.edit-set-btn {
+  background: #ca9bc6;
+  color: white;
+  font-weight: bold;
+}
+
+.edit-set-btn:hover {
+  background: #a0439d;
+}

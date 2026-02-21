@@ -16,8 +16,20 @@ window.renderButtons = function () {
 	closeExtBtn.className = "close-extension-btn";
 	closeExtBtn.onclick = () => window.close();
 
+	// ：マイセット編集ボタン
+	const editSetBtn = document.createElement("button");
+	editSetBtn.textContent = "⇅　 マイセットの編集";
+	editSetBtn.className = "edit-set-btn";
+	editSetBtn.onclick = () => {
+		const key = AppState.active;
+		if (!key) return;
+		if (typeof window.openEditor === "function") {
+			window.openEditor(key);
+		}
+	};
+
 	const settingBtn = document.createElement("button");
-	settingBtn.textContent = "⚙　設定";
+	settingBtn.textContent = "⚙　全体設定";
 	settingBtn.className = "setting-btn";
 	settingBtn.onclick = () => {
 		const settingsPanel = document.getElementById("settingsPanel");
@@ -47,21 +59,6 @@ window.renderButtons = function () {
 
 		btn.onclick = () => b.url && chrome.tabs.create({ url: b.url });
 
-		// btn.onmouseenter = (e) => {
-		// tooltip.textContent = btn.dataset.url;
-		// tooltip.style.opacity = 1;
-		// tooltip.style.left = e.pageX + 10 + "px";
-		// tooltip.style.top = e.pageY + 10 + "px";
-		// };
-		// btn.onmousemove = (e) => {
-		// tooltip.style.left = e.pageX + 10 + "px";
-		// tooltip.style.top = e.pageY + 10 + "px";
-		// };
-		// btn.onmouseleave = () => {
-		// tooltip.style.opacity = 0;
-		// btn.style.background = btn.dataset.color;
-		// };
-		// ---------
 		btn.addEventListener("mouseenter", (e) => {
 		tooltip.textContent = btn.dataset.url;
 		tooltip.style.opacity = 1;
@@ -88,16 +85,18 @@ window.renderButtons = function () {
 
 	if (buttonsOnTop) {
 		// 上に配置
-		buttonsEl.appendChild(closeExtBtn);
 		buttonsEl.appendChild(settingBtn);
+		buttonsEl.appendChild(closeExtBtn);
+		buttonsEl.appendChild(editSetBtn); 
 		buttonsEl.appendChild(hr);
 		buttonsEl.appendChild(mainButtonsFragment);
 	} else {
 		// 下に配置（メインボタンの下）
 		buttonsEl.appendChild(mainButtonsFragment);
 		buttonsEl.appendChild(hr);
-		buttonsEl.appendChild(closeExtBtn);
+		buttonsEl.appendChild(editSetBtn); 
 		buttonsEl.appendChild(settingBtn);
+		buttonsEl.appendChild(closeExtBtn);
 	}
 
 	// =====================
