@@ -23,11 +23,18 @@
 		<!-- メモ帳 -->
 		<div id="memoPad">
 			<div class="memo-header">
-				メモ帳
+				<select id="memoSelect"></select>
+				<button id="addMemoBtn">＋</button>
+				<button id="deleteMemoBtn">✖</button>
+			</div>
+
+			<textarea id="memoTextarea"></textarea>
+
+			<div class="memo-actions">
 				<button id="copyMemoBtn">コピー(Ctrl+Cでも可)</button>
 				<button id="clearMemoBtn">クリア</button>
+				<button id="memoToButtonBtn">ボタンにする</button>
 			</div>
-			<textarea id="memoTextarea" placeholder="自由メモ（自動保存）"></textarea>
 		</div>
 </div>
 

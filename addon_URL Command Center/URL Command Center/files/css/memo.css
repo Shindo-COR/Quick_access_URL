@@ -17,11 +17,32 @@
 
 #memoTextarea {
 	width: 100%;
-	height: 105px;
+	height: 88px;
 	resize: none;
 	padding: 6px;
 	font-size: 14px;
 	border-radius: 6px;
 	border: 1px solid #ccc;
 	font-family: monospace;
+}
+
+.memo-header select {
+	flex: 1;
+	font-size: 11px;
+	padding: 2px 4px;
+}
+
+.memo-actions {
+	display: flex;
+	gap: 4px;
+	margin-top: 4px;
+}
+
+#memoToButtonBtn {
+	background: #6b7cff;
+	color: rgb(255, 255, 255);
+	font-size: 11px;
+}
+#memoToButtonBtn:hover {
+	background: #5061dc;
 }

@@ -132,8 +132,15 @@ markdownLinkRules: [
   { label: "プルリク", matchTitle: /プルリク/i },
 
 ],
+activeSet: "default",
 
-activeSet: "default"
+memos: {
+	"default": "テキスト",
+	"work": "...",
+	"ideas": "..."
+},
+activeMemo: "default"
+
 };
 
 
