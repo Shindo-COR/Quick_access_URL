@@ -100,12 +100,13 @@ backlogTemplates: {
 },
 backlogApi: {
 	space: "cor",
-	apiKey: ""
+	apiKey: "6TQFGp1OiSBm1xeL1nvTPOGOFZ6VLU3Q9yCmgZaeAYSX2Pz69I6QMHpxC54mj1AQ"
 },
 autoMysetTemplate: {
 	baseButtons: [
 		{ label: "仕様書", url: "", color: "#fbd460" },
 		{ label: "XD", url: "", color: "#8142b1" },
+		{ label: "プルリク", url: "", color: "#f98036" },
 		{ label: "内部修正シート", url: "", color: "#53ad5c" },
 		{ label: "外部修正シート", url: "", color: "#49c768" },
 		{ label: "外部QA", url: "", color: "#53ad5c" },
@@ -128,6 +129,8 @@ markdownLinkRules: [
 
   { label: "仕様書", matchTitle: /仕様/i },
   { label: "XD", matchTitle: /デザイン|XD/i, pickUrl: /xd/i },
+  { label: "プルリク", matchTitle: /プルリク/i },
+
 ],
 
 activeSet: "default"

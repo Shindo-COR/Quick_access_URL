@@ -47,20 +47,36 @@ window.renderButtons = function () {
 
 		btn.onclick = () => b.url && chrome.tabs.create({ url: b.url });
 
-		btn.onmouseenter = (e) => {
+		// btn.onmouseenter = (e) => {
+		// tooltip.textContent = btn.dataset.url;
+		// tooltip.style.opacity = 1;
+		// tooltip.style.left = e.pageX + 10 + "px";
+		// tooltip.style.top = e.pageY + 10 + "px";
+		// };
+		// btn.onmousemove = (e) => {
+		// tooltip.style.left = e.pageX + 10 + "px";
+		// tooltip.style.top = e.pageY + 10 + "px";
+		// };
+		// btn.onmouseleave = () => {
+		// tooltip.style.opacity = 0;
+		// btn.style.background = btn.dataset.color;
+		// };
+		// ---------
+		btn.addEventListener("mouseenter", (e) => {
 		tooltip.textContent = btn.dataset.url;
 		tooltip.style.opacity = 1;
 		tooltip.style.left = e.pageX + 10 + "px";
 		tooltip.style.top = e.pageY + 10 + "px";
-		};
-		btn.onmousemove = (e) => {
+		});
+
+		btn.addEventListener("mousemove", (e) => {
 		tooltip.style.left = e.pageX + 10 + "px";
 		tooltip.style.top = e.pageY + 10 + "px";
-		};
-		btn.onmouseleave = () => {
+		});
+
+		btn.addEventListener("mouseleave", () => {
 		tooltip.style.opacity = 0;
-		btn.style.background = btn.dataset.color;
-		};
+		});
 
 		mainButtonsFragment.appendChild(btn);
 	});
