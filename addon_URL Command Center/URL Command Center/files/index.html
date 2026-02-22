@@ -26,22 +26,24 @@
 		<div id="memoPad">
 			<div class="memo-header">
 				<select id="memoSelect"></select>
+				<!-- 定型文ボタン追加コンテナ -->
 				<button id="addMemoBtn">＋</button>
 				<button id="deleteMemoBtn">✖</button>
+				<div id="memoTemplateContainer" style="display:flex; gap:4px; margin-left:6px;"></div>
 			</div>
-
-			<textarea id="memoTextarea" placeholder="※メモからマイセットとボタンを作ることができます
-			■ボタン追加（URL ボタン名）：https://google.com  ボタン1
-			■マイセット作成(myset マイセット名)：
-			myset マイセット１
-			https://google.com Googleトップ
-			https://amazon.co.jp  Amazonトップ ">
+			<textarea id="memoTextarea" placeholder="◆ URLボタン追加
+			https://example.com ラベル
+			◆ マイセット作成（先頭に myset 必ずを書く）
+			myset セット名
+			https://example.com ラベル
+			→ 「メモを反映」を押すと実行されます">
 			</textarea>
 
 			<div class="memo-actions">
-				<button id="clearMemoBtn">メモをクリア</button>
+				<button id="clearMemoBtn">クリア</button>
 				<button id="copyMemoBtn">コピー (Ctrl+Cでも可)</button>
 				<button id="memoExecuteBtn">メモを反映</button>
+				<button id="templateBtn">定型文にセット</button>
 			</div>
 		</div>
 </div>

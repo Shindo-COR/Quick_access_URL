@@ -174,6 +174,85 @@ function parseMemoSmart(text) {
 	// alert(` ${parsed.buttons.length} 件のボタンを追加しました`);
 }
 
+
+// =====================
+// メモ帳定型文機能
+// =====================
+const templateBtn = document.getElementById("templateBtn");
+const templateContainer = document.getElementById("memoTemplateContainer");
+
+// localStorage用 key
+const TEMPLATE_STORAGE_KEY = "memoTemplates";
+
+// 初期読み込み
+let memoTemplates = JSON.parse(localStorage.getItem("memoTemplates"));
+// localStorage になければ defaultconfig を初期値として反映
+if (!memoTemplates || memoTemplates.length === 0) {
+	memoTemplates = [...(window.DEFAULT_CONFIG.memoTemplates || [])];
+	localStorage.setItem("memoTemplates", JSON.stringify(memoTemplates));
+}
+
+function saveTemplates() {
+	localStorage.setItem(TEMPLATE_STORAGE_KEY, JSON.stringify(memoTemplates));
+	renderTemplates();
+}
+
+// 描画関数
+function renderTemplates() {
+	templateContainer.innerHTML = "";
+
+	memoTemplates.forEach((tpl, index) => {
+		const btn = document.createElement("button");
+		btn.className = "memo-template-btn";
+
+		// ボタンラベルは name を表示
+		const span = document.createElement("span");
+		span.textContent = tpl.name; 
+		btn.appendChild(span);
+
+		// 削除ボタン
+		const del = document.createElement("span");
+		del.className = "delete-template-btn";
+		del.textContent = "✖";
+		del.onclick = (e) => {
+		e.stopPropagation();
+		memoTemplates.splice(index, 1);
+		saveTemplates();
+		renderTemplates();
+		};
+		btn.appendChild(del);
+
+		// クリックでメモに挿入
+		btn.onclick = () => {
+		memoTextarea.value = tpl.text;
+		saveMemo();
+		};
+
+		templateContainer.appendChild(btn);
+	});
+	}
+
+// 「定型文としてセット」ボタン
+templateBtn.onclick = () => {
+	const name = prompt("ボタン名を入力（最大5文字）")?.trim().substring(0, 5);
+	if (!name) return;
+
+	// 名前の重複チェック
+	if (memoTemplates.some(t => t.name === name)) {
+		return alert("同じ名前のボタンがあります");
+	}
+
+	// 定型文の数制限
+	if (memoTemplates.length >= 3) return alert("定型文は3つまでです");
+
+	const text = memoTextarea.value; // 実際のメモの内容
+	memoTemplates.push({ name, text });
+	saveTemplates();
+	renderTemplates();
+};
+// 初期描画
+renderTemplates();
+
 // ボタンイベント登録
 const memoExecuteBtn = document.getElementById("memoExecuteBtn");
 memoExecuteBtn.onclick = executeMemo;

@@ -139,7 +139,18 @@ memos: {
 	"work": "...",
 	"ideas": "..."
 },
-activeMemo: "memo1"
+activeMemo: "memo1",
+
+memoTemplates: [
+	{
+	name: "info",
+	text: "[info]\n \n[/info]"
+	},
+	{
+	name: "code",
+	text: "[code]\n \n[/code]"
+	}
+]
 
 };
 
