@@ -137,7 +137,7 @@
 /* ---------------------
    Tooltip for Edit
 --------------------- */
-.edit-tab-btn::after {
+/* .edit-tab-btn::after {
 	content: "削除";
 	position: absolute;
 	bottom: -24px;
@@ -157,4 +157,4 @@
 
 .edit-tab-btn:hover::after {
 	opacity: 1;
-}
+} */

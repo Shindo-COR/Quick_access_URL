@@ -11,9 +11,8 @@
 
 
 html, body {
-	/* height: 77%; */
 	height: 100%;
-	overflow: hidden; /* ← これが最重要 */
+	overflow: hidden; 
 }
 
 body {

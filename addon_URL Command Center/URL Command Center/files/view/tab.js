@@ -18,6 +18,18 @@ window.renderTabs = function () {
 		title.textContent = AppState.sets[key].title;
 		title.ondblclick = () => openEditor(key);
 
+		// -----------------------
+		// tooltip（省略時のみ）
+		// -----------------------
+		requestAnimationFrame(() => {
+			if (title.scrollWidth > title.clientWidth) {
+				tab.title = AppState.sets[key].title;
+			} else {
+				tab.removeAttribute("title");
+			}
+		});
+
+
 		// タブクリック
 		tab.onclick = () => {
 			AppState.active = key;
@@ -52,17 +64,6 @@ window.renderTabs = function () {
 		tab.appendChild(title);
 		tab.appendChild(editBtn);
 		tabsEl.appendChild(tab);
-
-		// -----------------------
-		// tooltip（省略時のみ）
-		// -----------------------
-		requestAnimationFrame(() => {
-			if (title.scrollWidth > title.clientWidth) {
-				tab.title = AppState.sets[key].title;
-			} else {
-				tab.removeAttribute("title");
-			}
-		});
 
 		// -----------------------
 		// ドラッグ処理
