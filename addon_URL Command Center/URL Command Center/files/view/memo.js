@@ -53,6 +53,53 @@ memoTextarea.oninput = () => {
 	memoTimer = setTimeout(saveMemo, 300);
 };
 
+// ===============================
+// メモ帳のリサイズ
+// ===============================
+const memoPad = document.getElementById("memoPad");
+const resizeHandle = document.getElementById("memoResizeHandle");
+
+// 保存キー
+const MEMO_HEIGHT_KEY = "memoPadHeight";
+
+// 初期高さ復元
+const savedHeight = localStorage.getItem(MEMO_HEIGHT_KEY);
+if (savedHeight) {
+	memoPad.style.height = savedHeight + "px";
+}
+
+let isResizing = false;
+let startY = 0;
+let startHeight = 0;
+
+resizeHandle.addEventListener("mousedown", (e) => {
+	isResizing = true;
+	startY = e.clientY;
+	startHeight = memoPad.offsetHeight;
+	document.body.style.cursor = "ns-resize";
+	document.body.style.userSelect = "none";
+});
+
+document.addEventListener("mousemove", (e) => {
+	if (!isResizing) return;
+	const dy = e.clientY - startY;
+	const newHeight = Math.max(160, startHeight + dy); // 最小高さ 160px
+	memoPad.style.height = newHeight + "px";
+});
+
+document.addEventListener("mouseup", () => {
+	if (!isResizing) return;
+	isResizing = false;
+	document.body.style.cursor = "";
+	document.body.style.userSelect = "";
+
+	// 高さ保存
+	localStorage.setItem(MEMO_HEIGHT_KEY, memoPad.offsetHeight);
+});
+// ===============================
+// メモ帳のリサイズ End
+// ===============================
+
 // 追加
 addMemoBtn.onclick = () => {
 	const name = prompt("メモ名を入力");

@@ -90,3 +90,16 @@
 #templateBtn:hover {
 	background: #5e6522;
 }
+
+/* メモ帳のリサイズバー */
+#memoResizeHandle {
+	height: 6px;
+	cursor: ns-resize;
+	background: #ddd;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+#memoResizeHandle:hover {
+	background: #bbb;
+}
