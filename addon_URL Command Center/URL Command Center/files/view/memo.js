@@ -9,8 +9,8 @@ const memoToButtonBtn = document.getElementById("memoToButtonBtn");
 // 初期データ 
 const STORAGE_KEY = "urlCommandCenterMemoMulti";
 let memoData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
-	memos: { "default": "" },
-	activeMemo: "default"
+	memos: { "memo1": "" },
+	activeMemo: "memo1"
 };
 
 // UI再描画 
@@ -66,9 +66,9 @@ addMemoBtn.onclick = () => {
 
 // 削除
 deleteMemoBtn.onclick = () => {
-	if (memoData.activeMemo === "default") return alert("defaultは削除できません");
+	if (memoData.activeMemo === "memo1") return alert("memo1は削除できません");
 	delete memoData.memos[memoData.activeMemo];
-	memoData.activeMemo = "default";
+	memoData.activeMemo = "memo1";
 	renderMemoSelect();
 	loadActiveMemo();
 	saveMemo();
@@ -158,7 +158,7 @@ function parseMemoSmart(text) {
 		renderTabs();
 		renderButtons();
 
-		alert(`🎉 MySet "${name}" を生成しました`);
+		alert(` マイセット "${name}" を生成しました`);
 		return;
 	}
 
@@ -171,7 +171,7 @@ function parseMemoSmart(text) {
 	saveStorage({ sets: AppState.sets });
 	renderButtons();
 
-	alert(`➕ ${parsed.buttons.length} 件のボタンを追加しました`);
+	// alert(` ${parsed.buttons.length} 件のボタンを追加しました`);
 }
 
 // ボタンイベント登録

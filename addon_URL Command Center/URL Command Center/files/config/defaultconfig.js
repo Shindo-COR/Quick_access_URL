@@ -135,11 +135,11 @@ markdownLinkRules: [
 activeSet: "default",
 
 memos: {
-	"default": "テキスト",
+	"memo1": "テキスト",
 	"work": "...",
 	"ideas": "..."
 },
-activeMemo: "default"
+activeMemo: "memo1"
 
 };
 
