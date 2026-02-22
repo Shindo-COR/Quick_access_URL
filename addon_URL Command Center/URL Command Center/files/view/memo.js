@@ -88,9 +88,9 @@ clearMemoBtn.onclick = () => {
 	saveMemo();
 };
 
-// Ctrl+C shortcut
+// Ctrl+A shortcut
 memoTextarea.addEventListener("keydown", e => {
-	if (e.ctrlKey && e.key === "c") copyMemoBtn.click();
+	if (e.ctrlKey && e.key === "a") copyMemoBtn.click();
 });
 
 // ===============================
@@ -130,19 +130,24 @@ function parseMemoSmart(text) {
 }
 
 // メモ変換実行関数
-	function executeMemo() {
-		const memo = memoTextarea.value;
-		const parsed = parseMemoSmart(memo);
-		if (!parsed || !parsed.buttons.length) {
-			alert("有効なURLが見つかりません");
-			return;
-		}
+function executeMemo() {
+	const memo = memoTextarea.value;
+	const parsed = parseMemoSmart(memo);
+	if (!parsed) {
+		alert("メモが空です");
+		return;
+	}
 
-  // =====================
-  // MySet生成モード
-  // =====================
+	// =====================
+	// MySet生成モード（ボタンなしでもOK）
+	// =====================
 	if (parsed.isMyset) {
 		const name = parsed.setName;
+
+		if (!name) {
+		alert("myset 名が指定されていません");
+		return;
+		}
 
 		if (AppState.sets[name]) {
 		if (!confirm(`"${name}" は既に存在します。上書きしますか？`)) return;
@@ -150,7 +155,7 @@ function parseMemoSmart(text) {
 
 		AppState.sets[name] = {
 		title: name,
-		buttons: parsed.buttons
+		buttons: parsed.buttons || []
 		};
 
 		AppState.active = name;
@@ -158,20 +163,25 @@ function parseMemoSmart(text) {
 		renderTabs();
 		renderButtons();
 
-		alert(` マイセット "${name}" を生成しました`);
+		alert(`マイセット "${name}" を生成しました（ボタン ${parsed.buttons.length} 件）`);
 		return;
 	}
 
 	// =====================
-	// ボタン追加モード
+	// 通常ボタン追加モード
 	// =====================
+	if (!parsed.buttons.length) {
+		alert("有効なURLが見つかりません");
+		return;
+	}
+
 	const currentSet = AppState.sets[AppState.active];
 	currentSet.buttons.push(...parsed.buttons);
 
 	saveStorage({ sets: AppState.sets });
 	renderButtons();
 
-	// alert(` ${parsed.buttons.length} 件のボタンを追加しました`);
+	// alert(`${parsed.buttons.length} 件のボタンを追加しました`);
 }
 
 
