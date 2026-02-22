@@ -1,13 +1,15 @@
 /* Memo Pad 固定 */
 #memoPad {
-	flex-shrink: 0; /* 縮まない */
-	height: 160px; /* 固定 */
-	border-top: 2px solid #ddd;
-	padding: 6px;
-	background: #f8f9fb;
+	display: flex;
+	flex-direction: column;
+	height: 160px; /* 初期高さ */
+	min-height: 160px;
+	max-height: 55%;
+	border: 1px solid #aaa;
 }
 
 .memo-header {
+	flex-shrink: 0;
 	display: flex;
 	justify-content: space-between;
 	font-weight: bold;
@@ -16,14 +18,9 @@
 }
 
 #memoTextarea {
-	width: 100%;
-	height: 95px;
-	resize: none;
-	padding: 6px;
-	font-size: 14px;
-	border-radius: 6px;
-	border: 1px solid #ccc;
-	font-family: monospace;
+	flex: 1;
+	resize: none; /* 自前リサイズにするのでOFF */
+	overflow: auto;
 }
 
 .memo-header select {
@@ -33,6 +30,7 @@
 }
 
 .memo-actions {
+	flex-shrink: 0;
 	display: flex;
 	gap: 4px;
 	margin-top: 4px;

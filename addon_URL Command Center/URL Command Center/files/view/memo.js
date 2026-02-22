@@ -54,7 +54,7 @@ memoTextarea.oninput = () => {
 };
 
 // ===============================
-// メモ帳のリサイズ
+// メモ帳とテキストエリアのリサイズ
 // ===============================
 const memoPad = document.getElementById("memoPad");
 const resizeHandle = document.getElementById("memoResizeHandle");
@@ -68,36 +68,33 @@ if (savedHeight) {
 	memoPad.style.height = savedHeight + "px";
 }
 
-let isResizing = false;
 let startY = 0;
 let startHeight = 0;
 
-resizeHandle.addEventListener("mousedown", (e) => {
-	isResizing = true;
+resizeHandle.addEventListener("mousedown", e => {
 	startY = e.clientY;
 	startHeight = memoPad.offsetHeight;
-	document.body.style.cursor = "ns-resize";
-	document.body.style.userSelect = "none";
+
+	document.addEventListener("mousemove", resizeMemoPad);
+	document.addEventListener("mouseup", stopResize);
 });
 
-document.addEventListener("mousemove", (e) => {
-	if (!isResizing) return;
-	const dy = e.clientY - startY;
-	const newHeight = Math.max(160, startHeight + dy); // 最小高さ 160px
+function resizeMemoPad(e) {
+	const diff = e.clientY - startY;
+	const newHeight = Math.max(160, startHeight + diff);
 	memoPad.style.height = newHeight + "px";
-});
+}
 
-document.addEventListener("mouseup", () => {
-	if (!isResizing) return;
-	isResizing = false;
-	document.body.style.cursor = "";
-	document.body.style.userSelect = "";
-
-	// 高さ保存
+function stopResize() {
+	document.removeEventListener("mousemove", resizeMemoPad);
+	document.removeEventListener("mouseup", stopResize);
+		// 高さ保存
 	localStorage.setItem(MEMO_HEIGHT_KEY, memoPad.offsetHeight);
-});
+}
+
+
 // ===============================
-// メモ帳のリサイズ End
+// メモ帳とテキストエリアリサイズ End
 // ===============================
 
 // 追加
