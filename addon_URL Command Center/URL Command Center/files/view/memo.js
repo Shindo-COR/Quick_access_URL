@@ -64,6 +64,37 @@ addMemoBtn.onclick = () => {
 	saveMemo();
 };
 
+//メモ名の変更
+memoSelect.ondblclick = () => {
+	const oldName = memoData.activeMemo;
+	if (oldName === "memo1") {
+		alert("memo1 は名前変更できません");
+		return;
+	}
+
+	const newName = prompt("新しいメモ名を入力", oldName);
+	if (!newName) return;
+
+	const trimmed = newName.trim();
+	if (!trimmed) return alert("空の名前は使えません");
+
+	if (memoData.memos[trimmed]) {
+		return alert("同じ名前のメモが既に存在します");
+	}
+
+	// データキー変更
+	memoData.memos[trimmed] = memoData.memos[oldName];
+	delete memoData.memos[oldName];
+
+	// active 更新
+	memoData.activeMemo = trimmed;
+
+
+	saveMemo();
+	renderMemoSelect();
+	loadActiveMemo();
+};
+
 // 削除
 deleteMemoBtn.onclick = () => {
 	if (memoData.activeMemo === "memo1") return alert("memo1は削除できません");
