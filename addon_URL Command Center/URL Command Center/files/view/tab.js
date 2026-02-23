@@ -35,7 +35,8 @@ window.renderTabs = function () {
 			AppState.active = key;
 			saveStorage({ activeSet: key });
 			renderTabs();
-			renderButtons();
+			// renderButtons();
+			ButtonRenderer.renderButtons();
 		};
 
 		// 削除ボタン
@@ -58,7 +59,8 @@ window.renderTabs = function () {
 
 			saveStorage({ sets: AppState.sets, activeSet: AppState.active });
 			renderTabs();
-			renderButtons();
+			// renderButtons();
+			ButtonRenderer.renderButtons();
 		};
 
 		tab.appendChild(title);

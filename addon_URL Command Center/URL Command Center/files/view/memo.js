@@ -236,7 +236,8 @@ function executeMemo() {
 		AppState.active = name;
 		saveStorage({ sets: AppState.sets, activeSet: name });
 		renderTabs();
-		renderButtons();
+		// renderButtons();
+		ButtonRenderer.renderButtons();
 
 		alert(`マイセット "${name}" を生成しました（ボタン ${parsed.buttons.length} 件）`);
 		return;
@@ -254,7 +255,8 @@ function executeMemo() {
 	currentSet.buttons.push(...parsed.buttons);
 
 	saveStorage({ sets: AppState.sets });
-	renderButtons();
+	// renderButtons();
+	ButtonRenderer.renderButtons();
 
 	// alert(`${parsed.buttons.length} 件のボタンを追加しました`);
 }

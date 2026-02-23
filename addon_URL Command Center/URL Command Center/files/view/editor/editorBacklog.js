@@ -91,7 +91,8 @@ EditorBacklog.render = function(key) {
 			saveStorage({ sets: AppState.sets });
 			// drawRows();
 			EditorButton.drawRows();
-			renderButtons();
+			// renderButtons();
+			ButtonRenderer.renderButtons();
 
 			input.value = "";
 			updatePreview();

@@ -38,7 +38,8 @@ EditorTabActions.bind = function(key) {
 
 		closeEditorPanel();
 		renderTabs();
-		renderButtons();
+		// renderButtons();
+		ButtonRenderer.renderButtons();
 	};
 
 	// リセット
@@ -49,7 +50,8 @@ EditorTabActions.bind = function(key) {
 		AppState.active = window.DEFAULT_CONFIG.activeSet || Object.keys(AppState.sets)[0];
 
 		renderTabs();
-		renderButtons();
+		// renderButtons();
+		ButtonRenderer.renderButtons();
 		closeEditorPanel();
 		saveStorage({ sets: AppState.sets, activeSet: AppState.active });
 	};

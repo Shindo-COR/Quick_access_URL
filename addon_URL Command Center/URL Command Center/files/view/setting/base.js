@@ -49,7 +49,8 @@ window.initSettings = function () {
 	posCheck.onchange = () => {
 		AppState.settings.buttonsOnTop = posCheck.checked;
 		saveStorage({ settings: AppState.settings });
-		renderButtons();
+		// renderButtons();
+		ButtonRenderer.renderButtons();
 	};
 	posRow.row.appendChild(posCheck);
 	uiGroup.appendChild(posRow.row);
@@ -66,7 +67,8 @@ window.initSettings = function () {
 	darkCheck.onchange = () => {
 		AppState.settings.darkMode = darkCheck.checked;
 		saveStorage({ settings: AppState.settings });
-		applyDarkMode(darkCheck.checked);
+		// applyDarkMode(darkCheck.checked);
+		DarkMode.applyDarkMode(darkCheck.checked);
 	};
 	darkRow.row.appendChild(darkCheck);
 	darkGroup.appendChild(darkRow.row);
@@ -78,7 +80,8 @@ window.initSettings = function () {
 	bgPicker.oninput = () => {
 		AppState.settings.darkBgColor = bgPicker.value;
 		saveStorage({ settings: AppState.settings });
-		applyDarkMode(true);
+		// applyDarkMode(true);
+		DarkMode.applyDarkMode(true);
 	};
 	bgRow.row.appendChild(bgPicker);
 	darkGroup.appendChild(bgRow.row);
@@ -90,7 +93,8 @@ window.initSettings = function () {
 	textPicker.oninput = () => {
 		AppState.settings.darkTextColor = textPicker.value;
 		saveStorage({ settings: AppState.settings });
-		applyDarkMode(true);
+		// applyDarkMode(true);
+		DarkMode.applyDarkMode(true);
 	};
 	textRow.row.appendChild(textPicker);
 	darkGroup.appendChild(textRow.row);
@@ -107,7 +111,8 @@ window.initSettings = function () {
 	hoverCheck.onchange = () => {
 		AppState.settings.rainbowHover = hoverCheck.checked;
 		saveStorage({ settings: AppState.settings });
-		applyRainbowHover(hoverCheck.checked);
+		// applyRainbowHover(hoverCheck.checked);
+		RainbowHover.applyRainbowHover(hoverCheck.checked);
 	};
 	hoverRow.row.appendChild(hoverCheck);
 	effectGroup.appendChild(hoverRow.row);
@@ -137,9 +142,11 @@ window.initSettings = function () {
 		});
 
 		renderTabs();
-		renderButtons();
+		// renderButtons();
+		ButtonRenderer.renderButtons();
 		initSettings();
-		applyDarkMode(AppState.settings.darkMode);
+		// applyDarkMode(AppState.settings.darkMode);
+		DarkMode.applyDarkMode(AppState.settings.darkMode);
 
 		alert("完全に初期設定にリセットしました");
 	};
@@ -203,7 +210,8 @@ window.initSettings = function () {
 			});
 
 			renderTabs();
-			renderButtons();
+			// renderButtons();
+			ButtonRenderer.renderButtons();
 			initSettings();
 
 			alert("設定ファイルをロードしました");
@@ -230,5 +238,6 @@ window.initSettings = function () {
 	if (closeBtn) closeBtn.onclick = () => settingsPanel.classList.remove("open");
 
 	// 初期反映
-	applyDarkMode(AppState.settings.darkMode);
+	// applyDarkMode(AppState.settings.darkMode);
+	DarkMode.applyDarkMode(AppState.settings.darkMode);
 };
