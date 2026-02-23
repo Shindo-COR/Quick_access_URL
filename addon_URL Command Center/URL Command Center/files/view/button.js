@@ -65,7 +65,7 @@ window.renderButtons = function () {
 
 		deleteBtn.onclick = (e) => {
 			e.stopPropagation();
-			const index = Array.from(mainContainer.children).indexOf(btn);
+			btn.remove(); 
 			AppState.sets[AppState.active].buttons.splice(index, 1);
 			saveStorage({ sets: AppState.sets });
 			renderButtons();
