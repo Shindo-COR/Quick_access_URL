@@ -101,7 +101,7 @@ backlogTemplates: {
 },
 backlogApi: {
 	space: "cor",
-	apiKey: "6TQFGp1OiSBm1xeL1nvTPOGOFZ6VLU3Q9yCmgZaeAYSX2Pz69I6QMHpxC54mj1AQ"
+	apiKey: ""
 },
 autoMysetTemplate: {
 	baseButtons: [
