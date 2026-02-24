@@ -72,11 +72,11 @@
 }
 
 .memo-template-btn:hover {
-	background: #5e6522;
+	background: #838b33;
 }
 
 .delete-template-btn:hover {
-	background: #5e6522;
+	background: #838b33;
 }
 
 #templateBtn{
@@ -86,7 +86,7 @@
 }
 
 #templateBtn:hover {
-	background: #5e6522;
+	background: #838b33;
 }
 
 /* メモ帳のリサイズバー */
