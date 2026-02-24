@@ -1,13 +1,6 @@
 window.MainButtons = {};
 
 MainButtons.createMainButtonsContainer = function() {
-
-	// Tooltip 作成（URLホバー用）
-	const tooltip = document.createElement("div");
-	tooltip.className = "url-tooltip";
-	document.body.appendChild(tooltip);
-	// Tooltip 作成（URLホバー用）End
-
 	const mainContainer = document.createElement("div");
 	mainContainer.id = "mainButtonsContainer";
 
@@ -43,19 +36,15 @@ MainButtons.createMainButtonsContainer = function() {
 
 		// Tooltip
 		btn.addEventListener("mouseenter", (e) => {
-			tooltip.textContent = btn.dataset.url;
-			tooltip.style.opacity = 1;
-			tooltip.style.left = e.pageX + 10 + "px";
-			tooltip.style.top = e.pageY + 10 + "px";
-			});
+			Tooltip.show(btn.dataset.url, e.pageX, e.pageY);
+		});
 
 		btn.addEventListener("mousemove", (e) => {
-			tooltip.style.left = e.pageX + 10 + "px";
-			tooltip.style.top = e.pageY + 10 + "px";
+			Tooltip.move(e.pageX, e.pageY);
 		});
 
 		btn.addEventListener("mouseleave", () => {
-			tooltip.style.opacity = 0;
+			Tooltip.hide();
 		});
 
 		btn.appendChild(labelSpan);
