@@ -2,12 +2,12 @@ window.FixedButtons = {};
 
 FixedButtons.createFixedButtons = function() {
 	const closeExtBtn = document.createElement("button");
-	closeExtBtn.textContent = "✖ 終了する";
+	closeExtBtn.textContent = "✖　終了する";
 	closeExtBtn.className = "close-extension-btn";
 	closeExtBtn.onclick = () => window.close();
 
 	const editSetBtn = document.createElement("button");
-	editSetBtn.textContent = "⇅ マイセット編集";
+	editSetBtn.textContent = "⇅　マイセット編集";
 	editSetBtn.className = "edit-set-btn";
 	editSetBtn.onclick = () => {
 		const key = AppState.active;
@@ -15,7 +15,7 @@ FixedButtons.createFixedButtons = function() {
 	};
 
 	const settingBtn = document.createElement("button");
-	settingBtn.textContent = "⚙ 全体設定";
+	settingBtn.textContent = "⚙　全体設定";
 	settingBtn.className = "setting-btn";
 	settingBtn.onclick = () => {
 		const panel = document.getElementById("settingsPanel");
