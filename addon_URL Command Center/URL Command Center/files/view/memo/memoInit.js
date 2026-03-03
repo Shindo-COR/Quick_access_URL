@@ -82,7 +82,8 @@ Memo.init = function () {
 
 			AppState.active = name;
 			saveStorage({ sets: AppState.sets, activeSet: name });
-			renderTabs();
+			// renderTabs();
+			Tab.renderTabs();
 			ButtonRenderer.renderButtons();
 
 			alert(`マイセット "${name}" を生成しました（ボタン ${parsed.buttons.length} 件）`);

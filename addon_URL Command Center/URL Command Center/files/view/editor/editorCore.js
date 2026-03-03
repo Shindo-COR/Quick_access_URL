@@ -35,7 +35,8 @@ EditorCore.bindClose = function() {
 		}));
 
 		saveStorage({ sets: AppState.sets });
-		renderTabs();
+		// renderTabs();
+		Tab.renderTabs();
 		// renderButtons();
 		ButtonRenderer.renderButtons();
 		closeEditorPanel();

@@ -17,7 +17,8 @@ EditorTabActions.bind = function(key) {
 		saveStorage({ sets: AppState.sets, activeSet: AppState.active });
 
 		closeEditorPanel();
-		renderTabs();
+		// renderTabs();
+		Tab.renderTabs();
 		renderButtons();
 	};
 
@@ -37,7 +38,8 @@ EditorTabActions.bind = function(key) {
 		saveStorage({ sets: AppState.sets, activeSet: AppState.active });
 
 		closeEditorPanel();
-		renderTabs();
+		// renderTabs();
+		Tab.renderTabs();
 		// renderButtons();
 		ButtonRenderer.renderButtons();
 	};
@@ -49,7 +51,8 @@ EditorTabActions.bind = function(key) {
 		AppState.sets = JSON.parse(JSON.stringify(window.DEFAULT_CONFIG.sets));
 		AppState.active = window.DEFAULT_CONFIG.activeSet || Object.keys(AppState.sets)[0];
 
-		renderTabs();
+		// renderTabs();
+		Tab.renderTabs();
 		// renderButtons();
 		ButtonRenderer.renderButtons();
 		closeEditorPanel();

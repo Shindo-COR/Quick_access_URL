@@ -219,7 +219,8 @@ window.openEditor = function(key) {
 		AppState.active = newKey;
 		saveStorage({ sets: AppState.sets, activeSet: AppState.active });
 		closeEditorPanel();
-		renderTabs();
+		// renderTabs();
+		Tab.renderTabs();
 		renderButtons();
 	};
 
@@ -241,7 +242,8 @@ window.openEditor = function(key) {
 		AppState.active = Object.keys(AppState.sets)[0];
 		saveStorage({ sets: AppState.sets, activeSet: AppState.active });
 		closeEditorPanel();
-		renderTabs();
+		// renderTabs();
+		Tab.renderTabs();
 		renderButtons();
 	};
 
@@ -254,7 +256,8 @@ window.openEditor = function(key) {
 		AppState.active = window.DEFAULT_CONFIG.activeSet || Object.keys(AppState.sets)[0];
 
 		// UI 即時反映
-		renderTabs();
+		// renderTabs()
+		Tab.renderTabs();
 		renderButtons();
 
 		// 編集画面を閉じる
@@ -274,7 +277,8 @@ window.openEditor = function(key) {
 		color: r.querySelector(".color").value
 		}));
 		saveStorage({ sets: AppState.sets });
-		renderTabs();
+		// renderTabs();
+		Tab.renderTabs();
 		renderButtons();
 		closeEditorPanel();
 	};

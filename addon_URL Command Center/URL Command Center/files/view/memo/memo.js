@@ -235,7 +235,8 @@ function executeMemo() {
 
 		AppState.active = name;
 		saveStorage({ sets: AppState.sets, activeSet: name });
-		renderTabs();
+		// renderTabs();
+		Tab.renderTabs();
 		// renderButtons();
 		ButtonRenderer.renderButtons();
 

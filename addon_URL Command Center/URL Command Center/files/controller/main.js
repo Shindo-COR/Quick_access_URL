@@ -15,7 +15,7 @@ getStorage(data => {
 	}
 
 
-	renderTabs();
+	Tab.renderTabs();
 	ButtonRenderer.renderButtons();
 	startAutoSave();
 });

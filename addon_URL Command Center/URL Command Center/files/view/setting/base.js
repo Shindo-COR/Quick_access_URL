@@ -141,7 +141,8 @@ window.initSettings = function () {
 			settings: AppState.settings
 		});
 
-		renderTabs();
+		// renderTabs();
+		Tab.renderTabs();
 		// renderButtons();
 		ButtonRenderer.renderButtons();
 		initSettings();
@@ -209,7 +210,8 @@ window.initSettings = function () {
 			settings: AppState.settings
 			});
 
-			renderTabs();
+			// renderTabs();
+			Tab.renderTabs();
 			// renderButtons();
 			ButtonRenderer.renderButtons();
 			initSettings();
